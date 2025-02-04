@@ -28,14 +28,14 @@ export default function LogCard() {
           Email
           <Input placeholder="Enter email here" />
         </div>
-        <div className="mt-6">
+        <div className="mt-6 relative ">
           Password
           <Input
             type={showPassword ? "text" : "password"}
             placeholder="Enter password here"
           />
           <p
-            className="relative text-gray-600 duration-300 hover:text-black"
+            className=" text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px]"
             onClick={handleClick}
           >
             <span
