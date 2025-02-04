@@ -1,9 +1,10 @@
-import { Sidebar } from "./_components/Sidebar"
+"use client";
+import CreateProfile from "./CreateProfile";
 
 export default function Home() {
-    return(
-        <div>
-            <Sidebar/>
-        </div>
-    )
-};
+  return (
+    <div>
+      <CreateProfile />
+    </div>
+  );
+}
