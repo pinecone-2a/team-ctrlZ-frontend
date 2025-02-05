@@ -9,15 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.474.0",
-    "next": "^15.1.6",
-=======
-=======
->>>>>>> eb62511a8499833f2e3915643e42079e3ead0050
     "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -25,7 +16,6 @@
     "lucide-react": "^0.474.0",
     "next": "15.1.6",
     "input": "^1.0.1",
->>>>>>> 2f4f9e9fea238a17ced60e1a6d6465290e46d405
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.0.1",
