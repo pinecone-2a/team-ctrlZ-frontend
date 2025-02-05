@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Camera } from "lucide-react";
-import Header from "../Header";
+import Header from "./Header";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -46,7 +46,7 @@ export default function CreateProfile() {
 
     if (!Object.values(newErrors).includes(true)) {
       console.log("Profile Submitted:", { name, about, socialMedia, image });
-      router.push("./PaymentPage");
+      router.push("./_components/PaymentPage");
     }
   };
 
