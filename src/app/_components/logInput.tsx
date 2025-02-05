@@ -18,7 +18,7 @@ export default function LogCard() {
     setShowPassword(!showPassword);
   };
   return (
-    <Card className="w-[414px] h-[304px] shadow-none border-none">
+    <Card className="w-[414px] h-[304px] ml-auto mr-auto shadow-none border-none">
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
         <CardDescription></CardDescription>
