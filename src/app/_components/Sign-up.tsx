@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Coffee } from "lucide-react";
-
+import { Input } from "@/components/ui/input";
 export default function Sign() {
   return (
     <div className="font-[family-name:var(--font-inter)] flex">
@@ -18,7 +18,7 @@ export default function Sign() {
                 viewBox="0 0 175 207"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-              >
+                >
                 <path
                   d="M29.0874 83.0255C29.5468 80.7802 31.2354 78.9872 33.4492 78.394L115.841 56.3173C118.054 55.7241 120.413 56.4326 121.934 58.1473L132.918 70.5339L25.7684 99.2445L29.0874 83.0255Z"
                   fill="white"
@@ -58,7 +58,6 @@ export default function Sign() {
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       <div className="h-screen w-1/2 bg-[#F9FAFB] ">
         <div className="pt-10 ">
           <button className="w-[83px] h-[45px] border bg-[#F4F4F5] rounded-md text-[#18181B] ml-[1000px] ">
@@ -93,8 +92,6 @@ export default function Sign() {
           </div>
         </div>
       </div>
-=======
->>>>>>> 2f4f9e9fea238a17ced60e1a6d6465290e46d405
     </div>
   );
 }
