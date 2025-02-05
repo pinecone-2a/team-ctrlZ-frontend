@@ -1,8 +1,8 @@
-import LoginPage from "./Login/page";
+import Login from "../_components/Login";
 export default function Home() {
   return (
     <div>
-      <LoginPage />
+      <Login />
     </div>
   );
 }
