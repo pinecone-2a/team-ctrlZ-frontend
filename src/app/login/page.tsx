@@ -1,14 +1,12 @@
 "use client";
-import Login from "./_components/Login";
-import CreateProfile from "./CreateProfile";
 
 import Image from "next/image";
+import Login from "../_components/Login";
 
 export default function Home() {
   return (
     <div>
       <Login />
-      <CreateProfile />
     </div>
   );
 }
