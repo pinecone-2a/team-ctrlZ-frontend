@@ -1,6 +1,6 @@
 "use client";
 import Login from "./_components/Login";
-import CreateProfile from "./CreateProfile";
+import CreateProfile from "./profile/CreateProfile";
 
 import Image from "next/image";
 

@@ -12,6 +12,7 @@ import { Camera } from "lucide-react";
 import Header from "./Header";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CreateProfile() {
   const [image, setImage] = useState<string | null>(null);
@@ -46,14 +47,13 @@ export default function CreateProfile() {
 
     if (!Object.values(newErrors).includes(true)) {
       console.log("Profile Submitted:", { name, about, socialMedia, image });
-      router.push("./_components/PaymentPage");
     }
   };
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-200 h-screen">
       <Header />
-      <div className="flex justify-center items-center h-screen ">
+      <div className="flex justify-center ">
         <Card className="w-[510px]">
           <CardHeader>
             <CardTitle>Complete your profile page</CardTitle>
@@ -136,18 +136,20 @@ export default function CreateProfile() {
             />
             {errors.socialMedia && (
               <p className="text-red-500 text-sm mt-2">
-                Social media link must start with "http://" or "https://"
+                  Social media link must start with "http://" or "https://"
               </p>
             )}
           </CardContent>
 
           <CardFooter className="flex justify-end">
-            <button
-              onClick={handleSubmit}
-              className="w-[246px] h-[40px] bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
-            >
-              Continue
-            </button>
+            <Link href={"/profile/payment"}>
+              <button
+                onClick={handleSubmit}
+                className="w-[250px] h-[40px] bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
+              >
+                Continue
+              </button>
+            </Link>
           </CardFooter>
         </Card>
       </div>

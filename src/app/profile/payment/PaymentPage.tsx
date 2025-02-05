@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Coffee } from "lucide-react";
-import CountrySelect from "../_components/CountrySelect";
+import CountrySelect from "../CountrySelect";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="h-screen bg-gray-100">
       <header className="flex justify-between p-6">
         <div className="flex items-center text-black gap-2 font-semibold">
           <Coffee />
