@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Coffee } from "lucide-react";
 import CountrySelect from "../CountrySelect";
+import Header from "../Header";
 
 export default function PaymentPage() {
   const router = useRouter();
 
+  useEffect(() => {
+    const savedName = localStorage.getItem("userName");
+    if (savedName) {
+      setForm((prev) => ({ ...prev, firstName: savedName }));
+    }
+  }, []);
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -27,6 +34,17 @@ export default function PaymentPage() {
     year: false,
     cvc: false,
   });
+  const formatCardNumber = (value: string) => {
+    const numericValue = value.replace(/\D/g, "").slice(0, 16);
+
+    return numericValue.replace(/(\d{4})/g, "$1-").replace(/-$/, "");
+  };
+
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatCardNumber(e.target.value);
+    setForm({ ...form, cardNumber: formattedValue });
+    setErrors({ ...errors, cardNumber: false });
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -50,21 +68,12 @@ export default function PaymentPage() {
 
     if (!Object.values(newErrors).includes(true)) {
       console.log("Form submitted:", form);
-      router.push("");
     }
   };
 
   return (
-    <div className="h-screen bg-gray-100">
-      <header className="flex justify-between p-6">
-        <div className="flex items-center text-black gap-2 font-semibold">
-          <Coffee />
-          Buy Me Coffee
-        </div>
-        <button className="w-20 h-10 rounded-md bg-gray-200 text-black">
-          Log out
-        </button>
-      </header>
+    <div className="min-h-screen">
+      <Header />
 
       <div className="flex justify-center items-center mt-10 px-4">
         <div className="bg-white p-6 md:p-10 rounded-lg shadow-lg w-full max-w-lg">
@@ -79,7 +88,6 @@ export default function PaymentPage() {
             onSelect={(value) => setForm({ ...form, country: value })}
             error={errors.country}
           />
-
           <div className="flex gap-4 mt-4">
             <div className="w-1/2">
               <label className="block font-medium">First name</label>
@@ -120,12 +128,13 @@ export default function PaymentPage() {
             type="text"
             name="cardNumber"
             value={form.cardNumber}
-            onChange={handleChange}
+            onChange={handleCardNumberChange}
             placeholder="XXXX-XXXX-XXXX-XXXX"
             className={`w-full p-2 mt-1 border rounded-md ${
               errors.cardNumber ? "border-red-500" : ""
             }`}
           />
+
           {errors.cardNumber && (
             <p className="text-red-500 text-sm">
               Invalid card number (16 digits required)
@@ -197,12 +206,14 @@ export default function PaymentPage() {
               )}
             </div>
           </div>
-          <button
-            onClick={handleSubmit}
-            className="w-full mt-6 p-2 rounded-md text-white bg-black hover:bg-gray-800"
-          >
-            Continue
-          </button>
+          <div className="flex justify-end">
+            <button
+              onClick={handleSubmit}
+              className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
+            >
+              Continue
+            </button>
+          </div>
         </div>
       </div>
     </div>

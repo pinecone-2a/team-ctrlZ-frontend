@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import Select from "react-select";
+
 interface Country {
-  code: string;
-  name: string;
+  value: string;
+  label: string;
 }
 
 export default function CountrySelect({
@@ -20,13 +22,11 @@ export default function CountrySelect({
       .then((res) => res.json())
       .then((data) => {
         const countryList = data.map((country: any) => ({
-          code: country.cca2,
-          name: country.name.common,
+          value: country.cca2,
+          label: `${country.flag} ${country.name.common}`,
         }));
         setCountries(
-          countryList.sort((a: Country, b: Country) =>
-            a.name.localeCompare(b.name)
-          )
+          countryList.sort((a: any, b: any) => a.label.localeCompare(b.label))
         );
         setLoading(false);
       })
@@ -36,29 +36,27 @@ export default function CountrySelect({
       });
   }, []);
 
-  if (loading) {
-    return <p>Loading countries...</p>;
-  }
-
   return (
-    <div>
-      <label className="block font-medium">Select country</label>
-      <select
-        onChange={(e) => onSelect(e.target.value)}
-        className={`w-full p-2 mt-1 border rounded-md ${
-          error ? "border-red-500" : ""
-        }`}
-      >
-        <option value="">Select</option>
-        {countries.map((country) => (
-          <option key={country.code} value={country.code}>
-            {country.name}
-          </option>
-        ))}
-      </select>
-      {error && (
-        <p className="text-red-500 text-sm">Select country to continue</p>
+    <div className="mt-4">
+      <label className="block font-medium">Select Country</label>
+      {loading ? (
+        <p>Loading countries...</p>
+      ) : (
+        <Select
+          options={countries}
+          onChange={(selected: any) => onSelect(selected?.value || "")}
+          placeholder="Search and select a country..."
+          classNamePrefix="react-select"
+          styles={{
+            control: (base: any) => ({
+              ...base,
+              borderColor: error ? "red" : base.borderColor,
+              "&:hover": { borderColor: error ? "red" : base.borderColor },
+            }),
+          }}
+        />
       )}
+      {error && <p className="text-red-500 text-sm">Please select a country</p>}
     </div>
   );
 }
