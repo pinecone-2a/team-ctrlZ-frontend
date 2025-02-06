@@ -12,6 +12,8 @@ import Header from "./Header";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Lottie from "lottie-react";
+import coffee from "./coffee.json";
 
 export default function CreateProfile() {
   const [image, setImage] = useState<string | null>(null);
@@ -74,8 +76,8 @@ export default function CreateProfile() {
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="flex justify-center items-center mt-10 px-4">
-        <Card className="bg-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-lg">
+      <div className="flex justify-center items-center mt-10 px-4  ">
+        <Card className="bg-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-lg border-none">
           <CardHeader>
             <CardTitle>Complete your profile page</CardTitle>
           </CardHeader>
@@ -94,7 +96,7 @@ export default function CreateProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : uploading ? (
-                  <p className="text-sm">Uploading...</p>
+                  <Lottie animationData={coffee} />
                 ) : (
                   <Camera />
                 )}
