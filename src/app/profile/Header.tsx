@@ -7,7 +7,7 @@ export default function Header() {
         <Coffee />
         Buy Me Coffee
       </div>
-      <button className="w-16 h-10 rounded-md bg-gray-200 text-[#18181B] mt-10 mr-16 ">
+      <button className="w-16 py-2 h-10 rounded-md bg-black text-white mt-10 mr-16 ">
         Log out
       </button>
     </div>
