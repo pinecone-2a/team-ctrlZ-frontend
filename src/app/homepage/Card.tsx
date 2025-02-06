@@ -21,6 +21,7 @@ export default function Card() {
                         <p className="text-sm">buymecoffee.com/backonpackage1</p>
                     </div>
                 </div>
+
                 <div className="rounded-md bg-black w-[159px] h-[40px] text-white flex items-center pl-2 gap-2">
                     <Copy className="w-[16px] h-[16px]"/>
                     <button>Share page link</button>
