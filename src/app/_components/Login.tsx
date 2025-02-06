@@ -1,4 +1,6 @@
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import LogCard from "./logInput";
 import { Coffee } from "lucide-react";
 export default function Login() {
@@ -59,6 +61,8 @@ export default function Login() {
         </div>
       </div>
       <LogCard />
+      <Link href={"/signup"}>  
+      <Button className="absolute top-4 right-4">Sign up</Button></Link>
     </div>
   );
 }
