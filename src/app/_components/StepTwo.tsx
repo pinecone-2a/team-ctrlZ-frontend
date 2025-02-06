@@ -153,7 +153,6 @@ export function StepTwo({ handleNext, handleBack }: StepTwoProps) {
                         placeholder="Enter email here"
                       />
                     </FormControl>
-
                     <FormMessage>
                       {form1.formState.errors.email?.message}
                     </FormMessage>
