@@ -98,7 +98,10 @@ export default function LogCard() {
             </p>
           </div>
           <CardFooter className="mt-6">
-            <Button className="w-full h-[40px] bg-black text-white" type="submit">
+            <Button
+              className="w-[350px] h-[40px] bg-black text-white"
+              type="submit"
+            >
               Continue
             </Button>
           </CardFooter>
