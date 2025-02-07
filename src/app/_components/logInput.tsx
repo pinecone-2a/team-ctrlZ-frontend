@@ -30,8 +30,6 @@ export default function LogCard() {
     e.preventDefault();
 
     let valid = true;
-
-    // Email validation
     const emailPattern = /^\S+@\S+\.\S+$/;
     if (!email) {
       setEmailError("Please enter your email.");
@@ -43,7 +41,6 @@ export default function LogCard() {
       setEmailError("");
     }
 
-    // Password validation
     if (!password) {
       setPasswordError("Please enter your password.");
       valid = false;
