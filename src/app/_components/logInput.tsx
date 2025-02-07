@@ -7,11 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Eye } from "lucide-react";
-import { EyeOff } from "lucide-react";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import LoadingModal from "./loadingModal";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,22 +21,29 @@ export default function LogCard() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleClick = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleClick = () => setShowPassword(!showPassword);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     let valid = true;
+
+    // Email validation
+    const emailPattern = /^\S+@\S+\.\S+$/;
     if (!email) {
       setEmailError("Please enter your email.");
+      valid = false;
+    } else if (!emailPattern.test(email)) {
+      setEmailError("Please enter a valid email.");
       valid = false;
     } else {
       setEmailError("");
     }
 
+    // Password validation
     if (!password) {
       setPasswordError("Please enter your password.");
       valid = false;
@@ -42,23 +51,27 @@ export default function LogCard() {
       setPasswordError("");
     }
 
-    if (valid) {
-      console.log("Submitted:", { email, password });
-    }
+    if (!valid) return;
+
+    setLoading(true);
+    setTimeout(() => {
+      router.push("/profile");
+    }, 2500);
   };
 
   return (
-    <Card className="w-[414px] h-[auto] shadow-none border-none ml-auto mr-auto">
+    <Card className="w-[414px] shadow-none border-none mx-auto">
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
-        <CardDescription></CardDescription>
+        <CardDescription>Login to your account</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col justify-between">
+      <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
             <label htmlFor="email">Email</label>
             <Input
               id="email"
+              type="email"
               placeholder="Enter email here"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -78,28 +91,16 @@ export default function LogCard() {
               <p className="text-red-500 text-sm">{passwordError}</p>
             )}
             <p
-              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px]"
-              onClick={handleClick}
+              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
+              onMouseDown={handleClick}
             >
-              <span
-                className={`absolute transition-opacity duration-300 ${
-                  showPassword ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Eye />
-              </span>
-              <span
-                className={`absolute transition-opacity duration-300 ${
-                  showPassword ? "opacity-0" : "opacity-100"
-                }`}
-              >
-                <EyeOff />
-              </span>
+              {showPassword ? <Eye /> : <EyeOff />}
             </p>
           </div>
-          <CardFooter className="mt-6">
+          <CardFooter>
+            <LoadingModal loading={loading} />
             <Button
-              className="w-[350px] h-[40px] bg-black text-white"
+              className="w-full h-[40px] bg-black text-white"
               type="submit"
             >
               Continue
