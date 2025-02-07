@@ -9,12 +9,7 @@ import Header from "../Header";
 export default function PaymentPage() {
   const router = useRouter();
 
-  useEffect(() => {
-    const savedName = localStorage.getItem("userName");
-    if (savedName) {
-      setForm((prev) => ({ ...prev, firstName: savedName }));
-    }
-  }, []);
+
   const [form, setForm] = useState({
     country: "",
     firstName: "",
