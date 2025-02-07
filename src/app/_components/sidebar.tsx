@@ -1,6 +1,5 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-
 export default function Sidebar() {
   return (
     <div className="bg-[#FFFFFF] w-[350px] h-screen flex flex-col items-end gap-3">
@@ -17,5 +16,5 @@ export default function Sidebar() {
         Account settings
       </Badge>
     </div>
-  )
-};
+  );
+}
