@@ -11,7 +11,8 @@ import { Camera } from "lucide-react";
 import Header from "./Header";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Lottie from "lottie-react";
+import dino from "./dino.json";
 
 export default function CreateProfile() {
   const [image, setImage] = useState<string | null>(null);
@@ -66,16 +67,15 @@ export default function CreateProfile() {
       socialMedia: !isValidSocialMedia(socialMedia),
     };
     setErrors(newErrors);
-
     if (!Object.values(newErrors).includes(true)) {
-      localStorage.setItem("userName", name);
+      router.push("/profile/payment");
     }
   };
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="flex justify-center items-center mt-10 px-4">
-        <Card className="bg-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-lg">
+      <div className="flex justify-center items-center mt-10 px-4  ">
+        <Card className="bg-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-lg border-none">
           <CardHeader>
             <CardTitle>Complete your profile page</CardTitle>
           </CardHeader>
@@ -94,9 +94,9 @@ export default function CreateProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : uploading ? (
-                  <p className="text-sm">Uploading...</p>
+                  <Lottie animationData={dino} />
                 ) : (
-                  <Camera />
+                  <Camera className="text-[#E4E4E7]" />
                 )}
               </div>
             </label>
@@ -159,14 +159,12 @@ export default function CreateProfile() {
           </CardContent>
 
           <CardFooter className="flex justify-end">
-            <Link href={"/profile/payment"}>
-              <button
-                onClick={handleSubmit}
-                className="w-[246px] h-[40px] p-2 mt-6 bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
-              >
-                Continue
-              </button>
-            </Link>
+            <button
+              onClick={handleSubmit}
+              className="w-[246px] h-[40px] p-2 mt-6 bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
+            >
+              Continue
+            </button>
           </CardFooter>
         </Card>
       </div>
