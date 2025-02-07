@@ -12,7 +12,7 @@ import { Copy } from "lucide-react";
 
 export default function Card() {
     return(
-        <div className="m-10 w-[907px] h-[257px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
+        <div className="w-[907px] h-[257px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
             <div className="flex justify-between">
                 <div className="flex gap-3">
                     <img className="w-[48px] h-[48px]" src="Avatar.png"/>
