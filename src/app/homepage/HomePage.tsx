@@ -11,7 +11,7 @@ import {
 
 export default function HomePage() {
     return(
-        <div className="m-10">
+        <div>
             <Card/>
             <div>
                 <div className="flex justify-between mt-5 items-center">

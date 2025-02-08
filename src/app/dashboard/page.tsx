@@ -7,7 +7,6 @@ export default function Dashboard(){
         <div className="mx-[100px]">
             <Header />
             <Sidebar />
-                     
         </div>
     )
 };
