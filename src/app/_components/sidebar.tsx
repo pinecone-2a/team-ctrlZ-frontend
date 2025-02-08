@@ -25,5 +25,5 @@ export default function Sidebar() {
         </Badge>
       </Link>
     </div>
-  );
-}
+  )
+};
