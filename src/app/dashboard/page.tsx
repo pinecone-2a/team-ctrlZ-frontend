@@ -5,8 +5,9 @@ import Header from "./Header";
 export default function Dashboard(){
     return(
         <div className="mx-[100px]">
-            <Header/>
-            <Sidebar />         
+            <Header />
+            <Sidebar />
+                     
         </div>
     )
 };
