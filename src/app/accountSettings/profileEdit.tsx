@@ -2,19 +2,18 @@
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Camera } from "lucide-react";
-import Header from "./Header";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Lottie from "lottie-react";
-import dino from "./dino.json";
-
-export default function CreateProfile() {
+import EditPassword from "./passwordEdit";
+import { Camera } from "lucide-react";
+export default function EditProfile() {
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
@@ -33,7 +32,6 @@ export default function CreateProfile() {
   const isValidName = (name: string) => /^[A-Z][a-zA-Z]*$/.test(name);
   const isValidSocialMedia = (link: string) =>
     /^(http:\/\/|https:\/\/)/.test(link);
-
   const handleImageUpload = async (file: File) => {
     setUploading(true);
     const formData = new FormData();
@@ -67,17 +65,17 @@ export default function CreateProfile() {
       socialMedia: !isValidSocialMedia(socialMedia),
     };
     setErrors(newErrors);
+
     if (!Object.values(newErrors).includes(true)) {
-      router.push("/profile/payment");
+      localStorage.setItem("userName", name);
     }
   };
   return (
-    <div className="min-h-screen">
-      <Header />
-      <div className="flex justify-center items-center mt-10 px-4  ">
-        <Card className="bg-white p-6 md:p-10 rounded-lg shadow-2xl w-full max-w-lg border-none">
+    <div>
+      <div>
+        <Card className="bg-white p-6 rounded-lg shadow-none w-[651px]">
           <CardHeader>
-            <CardTitle>Complete your profile page</CardTitle>
+            <CardTitle>Uptade your profile page</CardTitle>
           </CardHeader>
           <CardContent>
             <p>Add photo</p>
@@ -94,9 +92,9 @@ export default function CreateProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : uploading ? (
-                  <Lottie animationData={dino} />
+                  <p className="text-sm">Uptadeing...</p>
                 ) : (
-                  <Camera className="text-[#E4E4E7]" />
+                  <Camera />
                 )}
               </div>
             </label>
@@ -163,7 +161,7 @@ export default function CreateProfile() {
               onClick={handleSubmit}
               className="w-[246px] h-[40px] p-2 mt-6 bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
             >
-              Continue
+              Save
             </button>
           </CardFooter>
         </Card>

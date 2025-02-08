@@ -3,13 +3,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Coffee } from "lucide-react";
-import CountrySelect from "../CountrySelect";
-import Header from "../Header";
+import CountrySelect from "../profile/CountrySelect";
 
-export default function PaymentPage() {
+export default function EditPayment() {
   const router = useRouter();
 
-
+  useEffect(() => {
+    const savedName = localStorage.getItem("userName");
+    if (savedName) {
+      setForm((prev) => ({ ...prev, firstName: savedName }));
+    }
+  }, []);
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -67,14 +71,10 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <Header />
-
-      <div className="flex justify-center items-center mt-10 px-4">
-        <div className="bg-white p-6 md:p-10 rounded-lg shadow-lg w-full max-w-lg">
-          <h2 className="text-xl md:text-2xl font-semibold">
-            How would you like to be paid?
-          </h2>
+    <div>
+      <div>
+        <div className="bg-white border rounded-2xl w-[651px] p-5">
+          <h2 className="text-xl">How would you like to be paid?</h2>
           <p className="text-gray-500 text-sm mb-6">
             Enter location and payment details
           </p>

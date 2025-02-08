@@ -218,6 +218,12 @@ export function StepTwo({ handleNext, handleBack }: StepTwoProps) {
                   >
                     Continue
                   </Button>
+                  <button
+                    onClick={handleBack}
+                    className="w-16 h-5 border rounded-md"
+                  >
+                    Back
+                  </button>
                 </form>
               </Form>
             </div>
