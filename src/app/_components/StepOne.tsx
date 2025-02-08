@@ -14,6 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSecondrSchema = z.object({
   Username: z
@@ -40,8 +42,25 @@ export function StepOne({ handleNext, handleBack }: StepOneProps) {
       Username: "",
     },
   });
+  const router = useRouter();
+  const { trigger, formState } = form2;
+  const [isButtonBlack, setIsButtonBlack] = useState(false);
+  const { isValid } = form2.formState;
 
-  function onSubmit(values: z.infer<typeof formSecondrSchema>) {
+  // async function onSubmit1() {
+  //   const isValid = await trigger();
+
+  //   if (isValid) {
+  //     setIsButtonBlack(true);
+  //   }
+  // }
+  const [showPassword, setShowPassword] = useState(false);
+
+  async function onSubmit(values: z.infer<typeof formSecondrSchema>) {
+    const isValid = await trigger();
+    if (isValid) {
+      setIsButtonBlack(true);
+    }
     console.log(values);
     handleNext(); // Move this here to ensure it triggers after form validation
   }
@@ -120,7 +139,10 @@ export function StepOne({ handleNext, handleBack }: StepOneProps) {
       </div>
       <div className="h-screen w-1/2 bg-[#F9FAFB]">
         <div className="pt-10">
-          <button className="w-[83px] h-[45px] border bg-black rounded-md text-white ml-[1000px]">
+          <button
+            className="w-[83px] h-[45px] border bg-black rounded-md text-white ml-[1000px]"
+            onClick={() => router.push("/login")}
+          >
             Log in
           </button>
         </div>
@@ -155,8 +177,14 @@ export function StepOne({ handleNext, handleBack }: StepOneProps) {
                     )}
                   />
                   <Button
+                    variant="outline"
                     type="submit"
-                    className="border bg-[#E4E4E7] w-[350px] py-2 rounded-md text-[#FAFAFA]"
+                    className={`w-[350px] py-2 rounded-md text-white border-none ${
+                      isValid
+                        ? "bg-black hover:bg-black hover:text-white"
+                        : "bg-[#707073] hover:bg-[#707073] hover:text-white"
+                    }`}
+                    onClick={() => onSubmit}
                   >
                     Continue
                   </Button>
