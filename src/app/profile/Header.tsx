@@ -1,4 +1,5 @@
 import { Coffee } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -7,9 +8,11 @@ export default function Header() {
         <Coffee />
         Buy Me Coffee
       </div>
-      <button className="w-16 h-10 rounded-md bg-gray-200 text-[#18181B] mt-10 mr-16 ">
-        Log out
-      </button>
+      <Link href={"/login"}>
+        <button className="w-20 py-2 h-10 rounded-md bg-black text-white mt-10 mr-16 ">
+          Log out
+        </button>
+      </Link>
     </div>
   );
 }
