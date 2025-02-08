@@ -1,5 +1,6 @@
 "use client";
 
+import Sidebar from "../_components/sidebar";
 import Card from "./Card";
 import {
     Select,
@@ -11,7 +12,9 @@ import {
 
 export default function HomePage() {
     return(
-        <div>
+        <div className="flex">
+            <Sidebar />
+        <div className="m-10">
             <Card/>
             <div>
                 <div className="flex justify-between mt-5 items-center">
@@ -60,9 +63,9 @@ export default function HomePage() {
                     <div className="text-sm mt-2">
                             <p>Thank you for being awasome everyday!</p>
                     </div>
-
                 </div>
             </div>
+        </div>{""}
         </div>
     )
 };
