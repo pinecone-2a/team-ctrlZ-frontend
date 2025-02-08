@@ -2,6 +2,7 @@
 import { Coffee, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -14,6 +15,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface StepTwoProps {
   handleNext: () => void;
@@ -43,12 +45,19 @@ export function StepTwo({ handleNext, handleBack }: StepTwoProps) {
       password: "",
     },
   });
+  const router = useRouter();
+  const { trigger, formState } = form1;
+  const { isValid } = form1.formState;
 
-  function onSubmit1(values: z.infer<typeof formFirstSchema>) {
-    console.log(values);
-    handleNext();
+  async function onSubmit1() {
+    const isValid = await trigger();
+
+    if (isValid) {
+      setTimeout(() => router.push("/login"));
+    }
   }
   const [showPassword, setShowPassword] = useState(false);
+
   const handleClick = () => {
     setShowPassword(!showPassword);
   };
@@ -127,7 +136,10 @@ export function StepTwo({ handleNext, handleBack }: StepTwoProps) {
       </div>
       <div className="h-screen w-1/2 bg-[#F9FAFB]">
         <div className="pt-10">
-          <button className="w-[83px] h-[45px] border bg-black rounded-md text-white ml-[1000px]">
+          <button
+            className="w-[83px] h-[45px] border bg-black rounded-md text-white ml-[1000px]"
+            onClick={() => router.push("/login")}
+          >
             Log in
           </button>
         </div>
@@ -161,49 +173,51 @@ export function StepTwo({ handleNext, handleBack }: StepTwoProps) {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...form1.register("password")}
-                        placeholder="Enter password here"
-                        type={showPassword ? "text" : "password"}
-                        className="relative top- r-1"
-                      />
+                      <div className="relative">
+                        <Input
+                          {...form1.register("password")}
+                          placeholder="Enter password here"
+                          type={showPassword ? "text" : "password"}
+                        />
+                        <p
+                          className=" text-gray-600 opacity-45 duration-300 hover:text-black absolute top-1 right-10"
+                          onClick={handleClick}
+                        >
+                          <span
+                            className={`absolute transition-opacity duration-300 ${
+                              showPassword ? "opacity-100" : "opacity-0"
+                            }`}
+                          >
+                            <Eye />
+                          </span>
+                          <span
+                            className={`absolute transition-opacity duration-300 ${
+                              showPassword ? "opacity-0" : "opacity-100"
+                            }`}
+                          >
+                            <EyeOff />
+                          </span>
+                        </p>
+                      </div>
                     </FormControl>
-                    <p
-                      className=" text-gray-600 opacity-45 duration-300 hover:text-black absolute"
-                      onClick={handleClick}
-                    >
-                      <span
-                        className={`absolute transition-opacity duration-300 ${
-                          showPassword ? "opacity-100" : "opacity-0"
-                        }`}
-                      >
-                        <Eye />
-                      </span>
-                      <span
-                        className={`absolute transition-opacity duration-300 ${
-                          showPassword ? "opacity-0" : "opacity-100"
-                        }`}
-                      >
-                        <EyeOff />
-                      </span>
-                    </p>
+
                     <FormMessage>
                       {form1.formState.errors.password?.message}
                     </FormMessage>
                   </FormItem>
 
                   <Button
+                    variant="outline"
                     type="submit"
-                    className="border bg-[#E4E4E7] w-[350px] py-2 rounded-md text-[#FAFAFA]"
+                    className={`w-[350px] py-2 rounded-md text-white ${
+                      isValid
+                        ? "bg-black hover:bg-neutral-900 hover:text-white"
+                        : "bg-[#707073] hover:bg-[#707073] hover:text-white"
+                    }`}
+                    onClick={onSubmit1}
                   >
                     Continue
                   </Button>
-                  <button
-                    onClick={handleBack}
-                    className="w-16 h-5 border rounded-md"
-                  >
-                    Back
-                  </button>
                 </form>
               </Form>
             </div>
