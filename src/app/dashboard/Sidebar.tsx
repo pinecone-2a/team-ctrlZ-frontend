@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import HomePage from "../homepage/HomePage"; 
+import HomePage from "../homepage/HomePage";
 
 export default function Sidebar() {
   const [isHomePageVisible, setIsHomePageVisible] = useState(false);
@@ -14,7 +14,6 @@ export default function Sidebar() {
   return (
     <div className="">
       <div className="flex flex-col gap-[8px] mt-10">
-        
         <div className="flex gap-[100px]">
           <div className="flex items-center pl-2 text-black w-[250px] h-[36px] rounded-md hover:bg-[#F4F4F5]">
             <button onClick={handleHomeButtonClick}>Home</button>
@@ -24,7 +23,6 @@ export default function Sidebar() {
 
         <div className="flex items-center pl-2 text-black w-[250px] h-[36px] rounded-md hover:bg-[#F4F4F5]">
           <button>Explore</button>
-          
         </div>
 
         <div className="flex items-center pl-2 text-black w-[250px] h-[36px] rounded-md hover:bg-[#F4F4F5]">
@@ -34,16 +32,10 @@ export default function Sidebar() {
         <div className="flex items-center pl-2 text-black w-[250px] h-[36px] rounded-md hover:bg-[#F4F4F5]">
           <button>Account settings</button>
         </div>
-
       </div>
     </div>
   );
-};
-
-
-
-
-
+}
 
 // "use client";
 

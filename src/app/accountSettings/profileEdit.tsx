@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import EditPassword from "./passwordEdit";
+import Lottie from "lottie-react";
+import loading from "./loading.json";
 import { Camera } from "lucide-react";
 export default function EditProfile() {
   const [image, setImage] = useState<string | null>(null);
@@ -92,7 +94,7 @@ export default function EditProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : uploading ? (
-                  <p className="text-sm">Uptadeing...</p>
+                  <Lottie animationData={loading} />
                 ) : (
                   <Camera />
                 )}
