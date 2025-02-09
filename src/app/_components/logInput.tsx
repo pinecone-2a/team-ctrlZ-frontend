@@ -92,7 +92,6 @@ export default function LogCard() {
           </div>
           <footer>
             <LoadingModal loading={loading} />
-<<<<<<< HEAD
             {!loading && (
               <button
                 className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
@@ -106,14 +105,6 @@ export default function LogCard() {
                 Continue
               </button>
             )}
-=======
-            <button
-              className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
-              type="submit"
-            >
-              Continue
-            </button>
->>>>>>> main
           </footer>
         </form>
       </CardContent>
