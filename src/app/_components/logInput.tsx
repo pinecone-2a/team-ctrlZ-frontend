@@ -59,7 +59,7 @@ export default function LogCard() {
   return (
     <Card className="w-[414px] shadow-none border-none mx-auto">
       <CardHeader>
-        <CardTitle>Welcome back</CardTitle>
+        <CardTitle className="text-[32px] ">Welcome back</CardTitle>
         <CardDescription>Login to your account</CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,15 +94,15 @@ export default function LogCard() {
               {showPassword ? <Eye /> : <EyeOff />}
             </p>
           </div>
-          <CardFooter>
+          <footer>
             <LoadingModal loading={loading} />
-            <Button
-              className="w-full h-[40px] bg-black text-white"
+            <button
+              className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
               type="submit"
             >
               Continue
-            </Button>
-          </CardFooter>
+            </button>
+          </footer>
         </form>
       </CardContent>
     </Card>
