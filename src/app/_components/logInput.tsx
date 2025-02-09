@@ -57,6 +57,7 @@ export default function LogCard() {
         <CardTitle className="text-[32px] ">Welcome back</CardTitle>
         <CardDescription>Login to your account</CardDescription>
       </CardHeader>
+      <p>Hello</p>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
