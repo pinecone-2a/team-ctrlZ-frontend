@@ -5,11 +5,10 @@ import { useRouter } from "next/navigation";
 import { Coffee } from "lucide-react";
 import CountrySelect from "../CountrySelect";
 import Header from "../Header";
-
+import LoadingModal from "@/app/_components/loadingModal";
 export default function PaymentPage() {
   const router = useRouter();
-
-
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -47,7 +46,6 @@ export default function PaymentPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
   };
-
   const handleSubmit = () => {
     const newErrors = {
       country: form.country === "",
@@ -60,9 +58,14 @@ export default function PaymentPage() {
     };
 
     setErrors(newErrors);
-
     if (!Object.values(newErrors).includes(true)) {
       console.log("Form submitted:", form);
+
+      setLoading(true);
+
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2500);
     }
   };
 
@@ -202,9 +205,10 @@ export default function PaymentPage() {
             </div>
           </div>
           <div className="flex justify-end">
+            <LoadingModal loading={loading} />
             <button
               onClick={handleSubmit}
-              className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
+              className="w-[246px] mt-6 p-2 bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA]"
             >
               Continue
             </button>
