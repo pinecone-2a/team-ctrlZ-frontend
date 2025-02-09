@@ -1,3 +1,4 @@
+import Lottie from "lottie-react";
 import { Coffee } from "lucide-react";
 import Link from "next/link";
 
