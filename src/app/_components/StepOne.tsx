@@ -62,7 +62,7 @@ export function StepOne({ handleNext, handleBack }: StepOneProps) {
       setIsButtonBlack(true);
     }
     console.log(values);
-    handleNext(); // Move this here to ensure it triggers after form validation
+    handleNext();
   }
 
   return (
