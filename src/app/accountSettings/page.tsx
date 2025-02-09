@@ -12,7 +12,7 @@ export default function AccountSettings() {
         <EditPassword />
         <EditPayment />
         <SuccessMess />
-      </div>{" "}
+      </div>
     </div>
   );
 }
