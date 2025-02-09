@@ -49,11 +49,6 @@ export default function LogCard() {
     }
 
     if (!valid) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      router.push("/profile");
-    }, 2500);
   };
 
   return (
@@ -96,12 +91,19 @@ export default function LogCard() {
           </div>
           <footer>
             <LoadingModal loading={loading} />
-            <button
-              className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
-              type="submit"
-            >
-              Continue
-            </button>
+            {!loading && (
+              <button
+                className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    router.push("/profile");
+                  }, 4000);
+                }}
+              >
+                Continue
+              </button>
+            )}
           </footer>
         </form>
       </CardContent>
