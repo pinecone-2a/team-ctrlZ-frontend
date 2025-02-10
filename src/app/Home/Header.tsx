@@ -11,7 +11,7 @@ import {
 export default function Header() {
     return(
         <div className="flex justify-between p-5">
-            <div className="flex items-center gap-[8px]">
+            <div className="flex items-center gap-[8px] ml-[60px]">
                 <Coffee className="w-[24px] h-[24px]"/>
                 <p className="text-base font-bold">Buy Me Coffee</p>
             </div>
