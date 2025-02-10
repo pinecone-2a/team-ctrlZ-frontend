@@ -78,7 +78,7 @@ export default function Login() {
       </div>
       <LogCard />
       <Link href={"/signup"}>
-        <Button className="absolute top-10 right-[160px] w-[83px] h-[45px] border bg-black rounded-md text-white text-sm">
+        <Button className="absolute top-10 right-[160px] w-[83px] h-[45px] border bg-black rounded-md  text-white text-sm">
           Sign up
         </Button>
       </Link>
