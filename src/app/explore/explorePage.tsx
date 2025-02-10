@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SquareArrowOutUpRight } from "lucide-react";
 export default function Explore() {
   return (
+    <div>  
     <div className="w-[909px] h-[340px]  ">
       <div className="mb-20 mt-12 ">
         Explore creaters
@@ -22,7 +23,7 @@ export default function Explore() {
           type="search"
           placeholder="Search name"
         ></Input>
-        <Search className="absolute top-[77px] opacity-45 left-[650px]" />
+        <Search className="absolute top-[158px] opacity-45 left-[650px]" />
       </div>
       <div>
         <Card>
@@ -67,6 +68,6 @@ export default function Explore() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </div></div>
   );
 }
