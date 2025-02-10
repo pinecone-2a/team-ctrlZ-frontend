@@ -283,7 +283,11 @@ export default function MultiStepSignup() {
 
       {isSubmitting && (
         <div className="fixed inset-0 flex justify-center items-center bg-white z-50">
-          <Lottie animationData={coffee} loop={true} size={500} />
+          <Lottie
+            animationData={coffee}
+            loop={true}
+            className="w-[500px] h-[500px]"
+          />
         </div>
       )}
     </div>
