@@ -47,6 +47,20 @@ export default function LogCard() {
     }
   };
 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/auth/sign-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      console.log("Response:", data);
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  };
+
   const handleClick = () => setShowPassword(!showPassword);
 
   const handleSubmit = (e: React.FormEvent) => {
