@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { isValid, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Coffee, Eye, EyeOff } from "lucide-react";
+import { Coffee, Eye, EyeOff, Sliders } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -39,7 +39,7 @@ export default function MultiStepSignup() {
     email: "",
     password: "",
   });
-
+  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -71,16 +71,26 @@ export default function MultiStepSignup() {
     };
 
     try {
-      const response = await fetch("http://localhost:4000/sign-up", {
+      const response = await fetch("http://localhost:4000/auth/sign-up", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(mergedData),
       });
 
+      const data = await response.json();
+      // console.log(data.message);
+      setErrorMessage(data.message);
+      console.log(errorMessage);
+
+      // if (data.code == "USER_ALREADY_EXISTS") {
+      //   setErrorMessage(data.message);
+      // }
+      // .then((data) => setData(data));
+
       if (response.ok) {
         setTimeout(() => {
           setIsSubmitting(false);
-          router.push("/login");
+          router.push("/profile");
         }, 2000);
       } else {
         console.error("Signup failed");
@@ -235,7 +245,8 @@ export default function MultiStepSignup() {
                   />
                 </FormControl>
                 <FormMessage>
-                  {formStepTwo.formState.errors.email?.message}
+                  {/* {formStepTwo.formState.errors.email?.message} */}
+                  {errorMessage}
                 </FormMessage>
               </FormItem>
 
