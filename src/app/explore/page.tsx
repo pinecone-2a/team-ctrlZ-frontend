@@ -1,6 +1,6 @@
 import Explore from "./explorePage";
 import Sidebar from "../_components/sidebar";
-import Header from "../Home/Header";
+import Header from "../home/Header";
 export default function expPage() {
   return (
     <div>  
