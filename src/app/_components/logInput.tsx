@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
+// import { headers } from "next/headers";
+// import { response } from "express";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +25,20 @@ export default function LogCard() {
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/auth/sign-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      console.log("Response:", data);
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  };
 
   const handleClick = () => setShowPassword(!showPassword);
 
