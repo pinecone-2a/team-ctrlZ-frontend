@@ -1,7 +1,8 @@
 "use client";
 import Sidebar from "@/app/_components/sidebar";
-import Header from "./Header";
+
 import HomePageDefault from "../homepage/page";
+import Header from "./header";
 export default function Dashboard(){
     return(
         <div >
