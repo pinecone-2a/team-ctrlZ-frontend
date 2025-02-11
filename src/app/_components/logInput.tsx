@@ -105,13 +105,10 @@ export default function LogCard() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {passwordError ||
-              data.code(
-                <p className="text-red-500 text-sm">
-                  {passwordError}
-                  {data.code}
-                </p>
-              )}
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
+            {data.code && <p className="text-red-500 text-sm">{data.code}</p>}
             <p
               className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
               onMouseDown={handleClick}
