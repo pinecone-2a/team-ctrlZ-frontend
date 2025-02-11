@@ -42,20 +42,9 @@ export default function LogCard() {
           router.push("/profile");
         }, 4000);
       }
-    } catch (e) {
-      console.error("Error:", e);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/auth/sign-in", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      console.log("Response:", data);
+      if (data.code === "Incorrect Password") {
+        setLoading(false);
+      }
     } catch (e) {
       console.error("Error:", e);
     }
@@ -116,9 +105,13 @@ export default function LogCard() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {passwordError && (
-              <p className="text-red-500 text-sm">{passwordError}</p>
-            )}
+            {passwordError ||
+              data.code(
+                <p className="text-red-500 text-sm">
+                  {passwordError}
+                  {data.code}
+                </p>
+              )}
             <p
               className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
               onMouseDown={handleClick}
