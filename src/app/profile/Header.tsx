@@ -1,7 +1,6 @@
 import Lottie from "lottie-react";
 import { Coffee } from "lucide-react";
 import Link from "next/link";
-
 export default function Header() {
   return (
     <div className="flex justify-between mr-10">

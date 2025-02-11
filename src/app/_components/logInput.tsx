@@ -49,17 +49,12 @@ export default function LogCard() {
     }
 
     if (!valid) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      router.push("/profile");
-    }, 2500);
   };
 
   return (
     <Card className="w-[414px] shadow-none border-none mx-auto">
       <CardHeader>
-        <CardTitle>Welcome back</CardTitle>
+        <CardTitle className="text-[32px] ">Welcome back</CardTitle>
         <CardDescription>Login to your account</CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,15 +89,22 @@ export default function LogCard() {
               {showPassword ? <Eye /> : <EyeOff />}
             </p>
           </div>
-          <CardFooter>
+          <footer>
             <LoadingModal loading={loading} />
-            <Button
-              className="w-full h-[40px] bg-black text-white"
-              type="submit"
-            >
-              Continue
-            </Button>
-          </CardFooter>
+            {!loading && (
+              <button
+                className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
+                onClick={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    router.push("/profile");
+                  }, 4000);
+                }}
+              >
+                Continue
+              </button>
+            )}
+          </footer>
         </form>
       </CardContent>
     </Card>
