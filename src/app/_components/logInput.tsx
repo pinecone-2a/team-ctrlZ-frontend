@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ export default function LogCard() {
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const [data, setData] = useState<any>([]);
   const handleLogin = async () => {
     try {
       const response = await fetch("http://localhost:4000/auth/sign-in", {
@@ -34,7 +34,14 @@ export default function LogCard() {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
+      setData(data);
       console.log("Response:", data);
+      setLoading(true);
+      if (data.code === "Succesfully signed in") {
+        setTimeout(() => {
+          router.push("/profile");
+        }, 4000);
+      }
     } catch (e) {
       console.error("Error:", e);
     }
@@ -110,12 +117,7 @@ export default function LogCard() {
             {!loading && (
               <button
                 className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
-                onClick={() => {
-                  setLoading(true);
-                  setTimeout(() => {
-                    router.push("/profile");
-                  }, 4000);
-                }}
+                onClick={handleLogin}
               >
                 Continue
               </button>
