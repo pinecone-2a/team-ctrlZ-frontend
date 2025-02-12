@@ -89,7 +89,7 @@ export default function MultiStepSignup() {
         setIsSubmitting(true);
         setTimeout(() => {
           setIsSubmitting(false);
-          router.push("/login");
+          router.push("/profile");
         }, 2000);
       } else {
         console.error("Signup failed");
@@ -244,7 +244,11 @@ export default function MultiStepSignup() {
                   />
                 </FormControl>
                 <FormMessage>
+<<<<<<< HEAD
                   {formStepTwo.formState.errors.email?.message}
+=======
+                  {/* {formStepTwo.formState.errors.email?.message} */}
+>>>>>>> main
                   {errorMessage}
                 </FormMessage>
               </FormItem>

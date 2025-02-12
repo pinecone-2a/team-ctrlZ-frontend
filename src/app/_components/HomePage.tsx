@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "../_components/sidebar";
+import Sidebar from "./sidebar";
 import Card from "./Card";
 import {
     Select,
