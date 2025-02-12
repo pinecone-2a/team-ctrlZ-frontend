@@ -64,7 +64,7 @@ export default function PaymentPage() {
       setLoading(true);
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/Home");
       }, 2500);
     }
   };
