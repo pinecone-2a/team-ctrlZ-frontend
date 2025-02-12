@@ -62,8 +62,6 @@ export default function MultiStepSignup() {
   }
 
   async function handleStepTwo(values: z.infer<typeof stepTwoSchema>) {
-    setIsSubmitting(true);
-
     const mergedData = {
       username: formData.username,
       email: values.email,
@@ -88,6 +86,7 @@ export default function MultiStepSignup() {
       // .then((data) => setData(data));
 
       if (response.ok) {
+        setIsSubmitting(true);
         setTimeout(() => {
           setIsSubmitting(false);
           router.push("/profile");
@@ -245,7 +244,11 @@ export default function MultiStepSignup() {
                   />
                 </FormControl>
                 <FormMessage>
+<<<<<<< HEAD
+                  {formStepTwo.formState.errors.email?.message}
+=======
                   {/* {formStepTwo.formState.errors.email?.message} */}
+>>>>>>> main
                   {errorMessage}
                 </FormMessage>
               </FormItem>
