@@ -3,7 +3,7 @@ import EditPassword from "./passwordEdit";
 import EditPayment from "./editPayment";
 import SuccessMess from "./successMess";
 import Sidebar from "../_components/sidebar";
-import Header from "../home/Header";
+import Header from "../_components/header";
 export default function AccountSettings() {
   return (
     <div>
@@ -16,7 +16,7 @@ export default function AccountSettings() {
           <EditPayment />
           <SuccessMess />
         </div>
-      </div>
+      </div>{" "}
     </div>
   );
 }
