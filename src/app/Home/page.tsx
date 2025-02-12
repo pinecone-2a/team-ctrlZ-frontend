@@ -4,7 +4,7 @@ import Header from "../_components/header";
 
 export default function HomePageDefault() {
   return (
-    <div className="flex">
+    <div>
       <Header />
       <HomePage />
     </div>
