@@ -7,13 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { use, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
+// import { headers } from "next/headers";
+// import { response } from "express";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +25,30 @@ export default function LogCard() {
   const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [data, setData] = useState<any>([]);
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/auth/sign-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      setData(data);
+      console.log("Response:", data);
+      setLoading(true);
+      if (data.code === "Succesfully signed in") {
+        setTimeout(() => {
+          router.push("/profile");
+        }, 4000);
+      }
+      if (data.code === "Incorrect Password") {
+        setLoading(false);
+      }
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  };
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -82,6 +108,7 @@ export default function LogCard() {
             {passwordError && (
               <p className="text-red-500 text-sm">{passwordError}</p>
             )}
+            {data.code && <p className="text-red-500 text-sm">{data.code}</p>}
             <p
               className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
               onMouseDown={handleClick}
@@ -94,12 +121,7 @@ export default function LogCard() {
             {!loading && (
               <button
                 className="w-[366px] rounded-md h-[40px] bg-black text-white hover:opacity-80 duration-200"
-                onClick={() => {
-                  setLoading(true);
-                  setTimeout(() => {
-                    router.push("/profile");
-                  }, 4000);
-                }}
+                onClick={handleLogin}
               >
                 Continue
               </button>
