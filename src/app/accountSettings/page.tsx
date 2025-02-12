@@ -16,7 +16,7 @@ export default function AccountSettings() {
           <EditPayment />
           <SuccessMess />
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 }

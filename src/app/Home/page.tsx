@@ -1,15 +1,12 @@
 "use client";
-import Sidebar from "@/app/_components/sidebar";
+import HomePage from "@/app/_components/HomePage";
+import Header from "../_components/header";
 
-import HomePageDefault from "../homepage/page";
-import Header from "./header";
-export default function Dashboard(){
-    return(
-        <div >
-            <Header />
-            <HomePageDefault/>
-
-        </div>
-    )
-};
-
+export default function HomePageDefault() {
+  return (
+    <div>
+      <Header />
+      <HomePage />
+    </div>
+  );
+}
