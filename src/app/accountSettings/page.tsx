@@ -3,7 +3,8 @@ import EditPassword from "./passwordEdit";
 import EditPayment from "./editPayment";
 import SuccessMess from "./successMess";
 import Sidebar from "../_components/sidebar";
-import Header from "../home/Header";
+import Header from "../profile/Header";
+
 export default function AccountSettings() {
   return (
     <div>

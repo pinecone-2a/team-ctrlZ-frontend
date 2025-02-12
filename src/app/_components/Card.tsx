@@ -12,6 +12,7 @@ import { Copy } from "lucide-react";
 
 export default function Card() {
     return(
+     
         <div className="w-[907px] h-[257px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
             <div className="flex justify-between">
                 <div className="flex gap-3">
@@ -45,5 +46,7 @@ export default function Card() {
                 <p className="font-bold text-4xl">450$</p>
             </div>
         </div>
+        
+       
     )
 };

@@ -5,7 +5,7 @@ export default function Sidebar() {
   return (
     <div className="bg-[#FFFFFF] w-[350px]  flex flex-col items-end gap-3 ">
       <Link href={"/home"}>
-        <Badge className="mr-5 w-[250px] h-[36px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] mt-[40px]">
+        <Badge className="mr-5 w-[250px] h-[36px] rounded-md  bg-white text-[#18181B] hover:bg-[#F4F4F5] mt-[40px] ">
           Home
         </Badge>
       </Link>
