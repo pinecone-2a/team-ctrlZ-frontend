@@ -1,5 +1,5 @@
 import VPmain from "./viewpage"
-import Header from "../Home/header"
+import Header from "../_components/header"
 export default function ViewPageMain(){
     return (
         <div>

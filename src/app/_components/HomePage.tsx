@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "../_components/sidebar";
-import Card from "./Card";
+import Sidebar from "./sidebar";
+import Card from "../homepage/Card";
 import {
     Select,
     SelectContent,

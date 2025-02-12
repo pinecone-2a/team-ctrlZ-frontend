@@ -1,15 +1,10 @@
 "use client";
-import Sidebar from "@/app/_components/sidebar";
+import HomePage from "@/app/_components/HomePage";
 
-import HomePageDefault from "../homepage/page";
-import Header from "./header";
-export default function Dashboard(){
+export default function HomePageDefault(){
     return(
-        <div >
-            <Header />
-            <HomePageDefault/>
-
+        <div className="flex">
+            <HomePage />
         </div>
     )
 };
-
