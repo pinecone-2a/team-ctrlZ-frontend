@@ -15,11 +15,14 @@ import Lottie from "lottie-react";
 import dino from "./dino.json";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
-
+import jwt from "jsonwebtoken";
 export default function CreateProfile() {
+  interface CustomJwtPayload extends jwt.JwtPayload {
+    userId: string;
+  }
   const cookies = useCookies();
-  const accessToken = cookies.get("accessToken");
-  const { userId } = jwtDecode(accessToken);
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = jwtDecode(accessToken) as CustomJwtPayload
   console.log({ userId });
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
