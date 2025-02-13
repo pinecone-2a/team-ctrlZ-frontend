@@ -31,6 +31,7 @@ export default function LogCard() {
       const response = await fetch("http://localhost:4000/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
