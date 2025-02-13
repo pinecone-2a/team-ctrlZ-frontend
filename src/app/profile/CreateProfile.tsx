@@ -15,6 +15,7 @@ import Lottie from "lottie-react";
 import dino from "./dino.json";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
+
 import jwt from "jsonwebtoken";
 export default function CreateProfile() {
   interface CustomJwtPayload extends jwt.JwtPayload {
@@ -22,8 +23,7 @@ export default function CreateProfile() {
   }
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
-  const { userId } = jwtDecode(accessToken) as CustomJwtPayload
-  console.log({ userId });
+  const { userId } = jwtDecode(accessToken);
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
@@ -98,11 +98,12 @@ export default function CreateProfile() {
             socialMediaURL: socialMedia,
           }),
         });
+        // const data = await res.json()
 
         if (res.ok) {
           router.push("/profile/payment");
         } else {
-          const errorText = await res.text();
+          const errorText = await res.json();
           console.error("Failed to submit profile:", errorText);
         }
       } catch (error) {
@@ -112,8 +113,8 @@ export default function CreateProfile() {
   };
 
   useEffect(() => {
-    console.log();
-  }, []);
+ console.log({ userId });
+ }, []);
   return (
     <div className="min-h-screen">
       <Header />
