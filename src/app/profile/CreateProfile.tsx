@@ -9,12 +9,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Camera } from "lucide-react";
 import Header from "./Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
 import dino from "./dino.json";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from "next-client-cookies";
 
+import jwt from "jsonwebtoken";
 export default function CreateProfile() {
+  interface CustomJwtPayload extends jwt.JwtPayload {
+    userId: string;
+  }
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = jwtDecode(accessToken);
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
@@ -59,7 +68,7 @@ export default function CreateProfile() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       image: image === null,
       name: !isValidName(name),
@@ -67,10 +76,45 @@ export default function CreateProfile() {
       socialMedia: !isValidSocialMedia(socialMedia),
     };
     setErrors(newErrors);
+
     if (!Object.values(newErrors).includes(true)) {
-      router.push("/profile/payment");
+      console.log("Submitting profile:", {
+        name,
+        about,
+        avatarImage: image,
+        socialMediaURL: socialMedia,
+      });
+
+      try {
+        const res = await fetch(`http://localhost:4000/profile/${userId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            about,
+            avatarImage: image,
+            socialMediaURL: socialMedia,
+          }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          router.push("/profile/payment");
+        } else {
+          const errorText = await res.json();
+          console.error("Failed to submit profile:", errorText);
+        }
+      } catch (error) {
+        console.error("Error submitting profile:", error);
+      }
     }
   };
+
+  useEffect(() => {
+    console.log({ userId });
+  }, []);
   return (
     <div className="min-h-screen">
       <Header />
