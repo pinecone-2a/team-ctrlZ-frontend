@@ -98,7 +98,7 @@ export default function CreateProfile() {
             socialMediaURL: socialMedia,
           }),
         });
-        // const data = await res.json()
+        const data = await res.json();
 
         if (res.ok) {
           router.push("/profile/payment");
@@ -113,8 +113,8 @@ export default function CreateProfile() {
   };
 
   useEffect(() => {
- console.log({ userId });
- }, []);
+    console.log({ userId });
+  }, []);
   return (
     <div className="min-h-screen">
       <Header />
