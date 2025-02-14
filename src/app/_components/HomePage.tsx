@@ -63,21 +63,24 @@ export default function HomePage() {
               </div>
             </div>
 
-                    <div className="w-[1450px] flex justify-between mt-10">
-                        <div className="flex gap-[8px] items-center">
-                            <img src="user.png" className="w-[40px] h-[40px] rounded-full"/>
-                            <div className="flex flex-col text-sm">
-                                <p className="font-bold">John Doe</p>
-                                <p>buymecoffee.com/bdsadas</p>
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-base font-bold">+$5</p>
-                            <p className="text-sm">5 hours ago</p>
-                        </div>
-                    </div>
-                    
+            <div className="w-[835px] flex justify-between mt-10">
+              <div className="flex gap-[8px] items-center">
+                <img
+                  src="user.png"
+                  className="w-[40px] h-[40px] rounded-full"
+                />
+                <div className="flex flex-col text-sm">
+                  <p className="font-bold">John Doe</p>
+                  <p>buymecoffee.com/bdsadas</p>
                 </div>
+              </div>
+              <div>
+                <p className="text-base font-bold ml-12">+$5</p>
+                <p className="text-sm">5 hours ago</p>
+              </div>
+            </div>
+            <div className="text-sm mt-2">
+              <p>Thank you for being awasome everyday!</p>
             </div>
 </div>
 </div>)}
