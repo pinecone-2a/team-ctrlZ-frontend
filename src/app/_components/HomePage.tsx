@@ -29,7 +29,7 @@ export default function HomePage() {
   }, []);
   console.log(data);
   return (
-    <div className="flex w-3/4">
+
     <div className="flex w-3/4">
       <div className="m-10">
         <Card data={data} />
@@ -102,7 +102,9 @@ export default function HomePage() {
             <div className="text-sm mt-2">
               <p>Thank you for being awasome everyday!</p>
             </div>
-</div>
-</div>
-</div>
-</div>)}
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+)}
