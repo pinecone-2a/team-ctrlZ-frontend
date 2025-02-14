@@ -76,19 +76,22 @@ export default function PaymentPage() {
       setLoading(true);
 
       try {
-        const res = await fetch(`http://localhost:4000/bank-card/${userId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            country: form.country,
-            firstName: form.firstName,
-            lastName: form.lastName,
-            cardNumber: form.cardNumber,
-            expiryDate: `${form.year}-${form.month}-23`,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/bank-card/${userId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              country: form.country,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              cardNumber: form.cardNumber,
+              expiryDate: `${form.year}-${form.month}-23`,
+            }),
+          }
+        );
 
         if (res.ok) {
           setTimeout(() => {

@@ -86,18 +86,21 @@ export default function CreateProfile() {
       });
 
       try {
-        const res = await fetch(`http://localhost:4000/profile/${userId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            about,
-            avatarImage: image,
-            socialMediaURL: socialMedia,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              about,
+              avatarImage: image,
+              socialMediaURL: socialMedia,
+            }),
+          }
+        );
         const data = await res.json();
 
         if (res.ok) {
