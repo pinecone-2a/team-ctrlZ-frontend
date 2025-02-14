@@ -11,16 +11,17 @@ import { Copy } from "lucide-react";
 
 export default function Card({ data }) {
   return (
-    <div className="w-[907px] h-[257px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
-      <div className="flex justify-between">
+     
+    <div className="w-[1450px] h-[350px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
+      <div className="flex justify-between  mt-4 ml-4">
         <div className="flex gap-3">
           <img
-            className="w-[48px] h-[48px] rounded-full"
+            className="w-[60px] h-[60px]  rounded-full"
             src={data.avatarImage}
           />
           <div>
-            <p className="font-bold text-base">{data.name}</p>
-            <p className="text-sm">{data.socialMediaURL}</p>
+            <p className="font-bold text-xl">{data.name}</p>
+            <p className="text-md">{data.socialMediaURL}</p>
           </div>
         </div>
 

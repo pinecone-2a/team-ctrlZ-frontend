@@ -245,7 +245,6 @@ export default function MultiStepSignup() {
                 </FormControl>
                 <FormMessage>
                   {formStepTwo.formState.errors.email?.message}
-                  {/* {formStepTwo.formState.errors.email?.message} */}
                   {errorMessage}
                 </FormMessage>
               </FormItem>
