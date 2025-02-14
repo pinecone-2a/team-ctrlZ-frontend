@@ -16,14 +16,16 @@ import dino from "./dino.json";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 export default function CreateProfile() {
   interface CustomJwtPayload extends jwt.JwtPayload {
     userId: string;
   }
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
-  const { userId } = jwtDecode(accessToken);
+  const { userId } = jwtDecode(accessToken) as JwtPayload & {
+    userId: string;
+  };
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
@@ -57,7 +59,6 @@ export default function CreateProfile() {
           body: formData,
         }
       );
-
       const data = await response.json();
       setImage(data.secure_url);
       setErrors((prev) => ({ ...prev, image: false }));
@@ -76,7 +77,6 @@ export default function CreateProfile() {
       socialMedia: !isValidSocialMedia(socialMedia),
     };
     setErrors(newErrors);
-
     if (!Object.values(newErrors).includes(true)) {
       console.log("Submitting profile:", {
         name,

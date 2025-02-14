@@ -9,11 +9,15 @@ import LoadingModal from "@/app/_components/loadingModal";
 import exp from "constants";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
+import { JwtPayload } from "jsonwebtoken";
+import { decodeToken } from "@/middleware";
 
 export default function PaymentPage() {
   const cookies = useCookies();
-  const accessToken = cookies.get("accessToken");
-  const { userId } = jwtDecode(accessToken);
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
   console.log({ userId });
   const router = useRouter();
   const [loading, setLoading] = useState(false);

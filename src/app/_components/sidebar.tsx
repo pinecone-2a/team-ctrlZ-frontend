@@ -11,29 +11,28 @@ const fadeScaleVariants = {
 };
 
 export default function Sidebar() {
-
   return (
     <div className="bg-[#FFFFFF] w-1/4  flex flex-col items-center gap-3 ">
-    <Link href={"/home"}>
-      <div  className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
-        Home
-      </div>
-    </Link>
-    <Link href={"/explore"}>
-    <div  className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
-        Explore
-      </div>
-    </Link>
-    <Link href={"/viewpage"}>
-    <div  className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
-        View page
-      </div>
-    </Link>
-    <Link href={"/accountSettings"}>
-    <div  className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
-        Account Settings
-      </div>
-    </Link>
-  </div>
+      <Link href={"/home"}>
+        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
+          Home
+        </div>
+      </Link>
+      <Link href={"/explore"}>
+        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
+          Explore
+        </div>
+      </Link>
+      <Link href={"/viewpage"}>
+        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
+          View page
+        </div>
+      </Link>
+      <Link href={"/accountSettings"}>
+        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4">
+          Account Settings
+        </div>
+      </Link>
+    </div>
   );
 }
