@@ -83,4 +83,6 @@ export default function HomePage() {
               <p>Thank you for being awasome everyday!</p>
             </div>
 </div>
+</div>
+</div>
 </div>)}
