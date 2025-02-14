@@ -10,12 +10,12 @@ import {
 
 export default function Header() {
   return (
-    <div className="flex justify-between p-5">
+    <div className="flex h-[56px] justify-between w-[95%]  mx-auto p-8">
       <div className="flex items-center gap-[8px] ml-[60px]">
-        <Coffee className="w-[24px] h-[24px]" />
-        <p className="text-base font-bold">Buy Me Coffee</p>
+        <Coffee className="w-[36px] h-[36px]" />
+        <p className="text-xl font-bold">Buy Me Coffee</p>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mr-28">
         <img src="avatar.png" className="w-[40px] h-[40px]" />
         <p>Jake</p>
         <Select>
