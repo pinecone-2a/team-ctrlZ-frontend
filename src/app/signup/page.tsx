@@ -69,11 +69,14 @@ export default function MultiStepSignup() {
     };
 
     try {
-      const response = await fetch("http://localhost:4000/auth/sign-up", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mergedData),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-up`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(mergedData),
+        }
+      );
 
       const data = await response.json();
       // console.log(data.message);
@@ -245,7 +248,6 @@ export default function MultiStepSignup() {
                 </FormControl>
                 <FormMessage>
                   {formStepTwo.formState.errors.email?.message}
-                  {/* {formStepTwo.formState.errors.email?.message} */}
                   {errorMessage}
                 </FormMessage>
               </FormItem>

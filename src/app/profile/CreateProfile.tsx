@@ -16,11 +16,16 @@ import dino from "./dino.json";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
+import jwt, { JwtPayload } from "jsonwebtoken";
 export default function CreateProfile() {
+  interface CustomJwtPayload extends jwt.JwtPayload {
+    userId: string;
+  }
   const cookies = useCookies();
-  const accessToken = cookies.get("accessToken");
-  const { userId } = jwtDecode(accessToken);
-  console.log({ userId });
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = jwtDecode(accessToken) as JwtPayload & {
+    userId: string;
+  };
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
@@ -54,7 +59,6 @@ export default function CreateProfile() {
           body: formData,
         }
       );
-
       const data = await response.json();
       setImage(data.secure_url);
       setErrors((prev) => ({ ...prev, image: false }));
@@ -83,23 +87,27 @@ export default function CreateProfile() {
       });
 
       try {
-        const res = await fetch(`http://localhost:4000/profile/${userId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            about,
-            avatarImage: image,
-            socialMediaURL: socialMedia,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              about,
+              avatarImage: image,
+              socialMediaURL: socialMedia,
+            }),
+          }
+        );
+        const data = await res.json();
 
         if (res.ok) {
           router.push("/profile/payment");
         } else {
-          const errorText = await res.text();
+          const errorText = await res.json();
           console.error("Failed to submit profile:", errorText);
         }
       } catch (error) {
@@ -109,7 +117,7 @@ export default function CreateProfile() {
   };
 
   useEffect(() => {
-    console.log();
+    console.log({ userId });
   }, []);
   return (
     <div className="min-h-screen">
