@@ -9,11 +9,15 @@ import LoadingModal from "@/app/_components/loadingModal";
 import exp from "constants";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
+import { JwtPayload } from "jsonwebtoken";
+import { decodeToken } from "@/middleware";
 
 export default function PaymentPage() {
   const cookies = useCookies();
-  const accessToken = cookies.get("accessToken");
-  const { userId } = jwtDecode(accessToken);
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
   console.log({ userId });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -72,19 +76,22 @@ export default function PaymentPage() {
       setLoading(true);
 
       try {
-        const res = await fetch(`http://localhost:4000/bank-card/${userId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            country: form.country,
-            firstName: form.firstName,
-            lastName: form.lastName,
-            cardNumber: form.cardNumber,
-            expiryDate: `${form.year}-${form.month}-23`,
-          }),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/bank-card/${userId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              country: form.country,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              cardNumber: form.cardNumber,
+              expiryDate: `${form.year}-${form.month}-23`,
+            }),
+          }
+        );
 
         if (res.ok) {
           setTimeout(() => {

@@ -14,20 +14,20 @@ export default function HomePageDefault() {
   return (
     <div>
       <Header />
-      <div className="flex mt-12"> 
-      <Sidebar/>
-      <AnimatePresence>
-        <motion.div
-          key="home"
-          variants={fadeScaleVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          <HomePage />
-        </motion.div>
-      </AnimatePresence>
-       </div>
+      <div className="flex mt-12">
+        <Sidebar />
+        <AnimatePresence>
+          <motion.div
+            key="home"
+            variants={fadeScaleVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <HomePage />
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
