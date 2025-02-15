@@ -12,7 +12,7 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
-import dino from "./dino.json";
+import loadingDino from "./loadingDino.json";
 import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
@@ -142,7 +142,7 @@ export default function CreateProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : uploading ? (
-                  <Lottie animationData={dino} />
+                  <Lottie animationData={loadingDino} />
                 ) : (
                   <Camera className="text-[#E4E4E7]" />
                 )}

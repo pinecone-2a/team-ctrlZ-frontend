@@ -66,7 +66,6 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
-
       const data = await response.json();
       setData(data);
       console.log("Response:", data);
