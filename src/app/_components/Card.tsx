@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Copy } from "lucide-react";
 
-export default function Card({ data }) {
+export default function Card({ data } : {data:any}) {
   return (
      
     <div className="w-[1450px] h-[350px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
