@@ -33,7 +33,7 @@ export default function HomePage() {
   console.log(data);
   return (
     <div className="flex w-3/4">
-      <div className="m-10">
+      <div className="">
         <Card data={data} />
         <div>
           <div className="flex justify-between mt-5 items-center">
