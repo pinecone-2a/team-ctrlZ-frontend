@@ -66,20 +66,28 @@ export default function VPmain() {
       setUploading(false);
     }
   };
+
   const addBackground = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          backgroundImage,
-        }),
-      }
-    );
-    if (!res.ok) throw new Error("Failed to update background image");
+    setUploading(true);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            backgroundImage,
+          }),
+        }
+      );
+      if (!res.ok) throw new Error("Failed to update background image");
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -106,7 +114,12 @@ export default function VPmain() {
             </Button>
           )}
           {backgroundImage && (
-            <Button onClick={addBackground}>Save change</Button>
+            <Button
+              className={`${!uploading ? "hidden" : "block"}`}
+              onClick={addBackground}
+            >
+              {uploading ? "Uploading..." : "Save change"}
+            </Button>
           )}
           <Input
             type="file"

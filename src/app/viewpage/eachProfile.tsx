@@ -36,7 +36,25 @@ export default function EachProfile() {
   const [url, setUrl] = useState("");
   const [message, setMessage] = useState("");
   const amounts = [1, 2, 5, 10];
-
+  const sendDonation = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/create-donation`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          amount,
+          specialMessage: message,
+          socialURLOrBuyMeACoffee: url,
+          donorId: userId,
+          recipentId: data.userId,
+        }),
+      }
+    );
+    const response = res.json();
+    console.log(response);
+  };
   return (
     <div>
       <div
@@ -114,7 +132,11 @@ export default function EachProfile() {
                 className="mt-1 w-[580px] h-[131px]"
               />
             </div>
-            <Button className="mt-4 w-full" disabled={!url.trim()}>
+            <Button
+              onClick={sendDonation}
+              className="mt-4 w-full"
+              disabled={!url.trim()}
+            >
               Support
             </Button>
           </Card>
