@@ -39,11 +39,14 @@ export default function EachProfile() {
 
   return (
     <div>
-      <div className="w-full bg-[#F4F4F5] h-[450px] flex justify-center items-center absolute">
-        <Button className="flex justify-center items-center">
-          <Camera /> Add a cover image
-        </Button>
-      </div>
+      <div
+        style={{
+          backgroundImage: `url(${data.backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="w-full bg-[#F4F4F5] h-[450px] flex justify-center items-center absolute"
+      ></div>
       <div className="flex justify-center gap-16 relative top-[350px] ">
         <div className="flex flex-col gap-6">
           <Card className="w-[623px] h-[233px]  p-6">
@@ -51,9 +54,6 @@ export default function EachProfile() {
               <Avatar>
                 <AvatarImage src={data.avatarImage} />
               </Avatar>
-              <Link href={"/accountSettings"}>
-                <Button>Edit page</Button>
-              </Link>{" "}
             </div>
             <div className="bg-[#E4E4E7] h-[1px] w-full mt-7"> </div>
             <h1 className="font-semibold text-[16px] mt-4">
