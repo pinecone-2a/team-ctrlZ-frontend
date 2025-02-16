@@ -6,7 +6,19 @@ import { Coffee } from "lucide-react";
 import CountrySelect from "../CountrySelect";
 import Header from "../Header";
 import LoadingModal from "@/app/_components/loadingModal";
+import exp from "constants";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from "next-client-cookies";
+import { JwtPayload } from "jsonwebtoken";
+import { decodeToken } from "@/middleware";
+
 export default function PaymentPage() {
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
+  console.log({ userId });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -46,7 +58,7 @@ export default function PaymentPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       country: form.country === "",
       firstName: form.firstName.trim() === "",
@@ -63,9 +75,35 @@ export default function PaymentPage() {
 
       setLoading(true);
 
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 2500);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/bank-card/${userId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              country: form.country,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              cardNumber: form.cardNumber,
+              expiryDate: `${form.year}-${form.month}-23`,
+            }),
+          }
+        );
+
+        if (res.ok) {
+          setTimeout(() => {
+            router.push("/home");
+          }, 2500);
+        } else {
+          const errorText = await res.text();
+          console.error("Failed to submit profile:", errorText);
+        }
+      } catch (error) {
+        console.error("Error submitting profile:", error);
+      }
     }
   };
 
