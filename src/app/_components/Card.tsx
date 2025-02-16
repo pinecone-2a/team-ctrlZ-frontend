@@ -8,8 +8,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Copy } from "lucide-react";
-
-export default function Card({ data }: any) {
+interface CardProps {
+  data: {
+    avatarImage: string;
+    name: string;
+    socialMediaURL: string;
+  };
+  totalEarning: number;
+}
+export default function Card({ data, totalEarning }: CardProps) {
   return (
     <div className="w-[1450px] h-[350px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
       <div className="flex justify-between  mt-4 ml-4">
@@ -43,7 +50,7 @@ export default function Card({ data }: any) {
             </SelectContent>
           </Select>
         </div>
-        <p className="font-bold text-4xl">450$</p>
+        <p className="font-bold text-4xl">{totalEarning}$</p>
       </div>
     </div>
   );
