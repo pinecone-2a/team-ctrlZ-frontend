@@ -67,33 +67,23 @@ export default function MultiStepSignup() {
       email: values.email,
       password: values.password,
     };
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-up`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify(mergedData),
         }
       );
-
       const data = await response.json();
-      // console.log(data.message);
       setErrorMessage(data.message);
       console.log(errorMessage);
-
-      // if (data.code == "USER_ALREADY_EXISTS") {
-      //   setErrorMessage(data.message);
-      // }
-      // .then((data) => setData(data));
-
       if (response.ok) {
         setIsSubmitting(true);
-        setTimeout(() => {
-          setIsSubmitting(false);
-          router.push("/profile");
-        }, 2000);
+        setIsSubmitting(false);
+        router.push("/profile");
       } else {
         console.error("Signup failed");
         setIsSubmitting(false);
