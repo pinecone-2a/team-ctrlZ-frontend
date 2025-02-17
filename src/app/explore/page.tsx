@@ -24,7 +24,7 @@ export default function ExpPage() {
   return (
     <div>
       <Header />
-      <div className="flex gap-24 mt-12">
+      <div className="flex mt-20 gap-28">
         <Sidebar />
         <AnimatePresence>
           <motion.div

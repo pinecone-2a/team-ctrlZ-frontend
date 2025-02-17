@@ -5,7 +5,7 @@ import EditPayment from "./editPayment";
 import SuccessMess from "./successMess";
 import Sidebar from "../_components/sidebar";
 import Header from "../_components/header";
-import { AnimatePresence, motion } from "framer-motion"; 
+import { AnimatePresence, motion } from "framer-motion";
 
 const fadeScaleVariants = {
   initial: { opacity: 0 },
@@ -17,12 +17,12 @@ export default function AccountSettings() {
   return (
     <div>
       <Header />
-      <div className="flex mt-12">
+      <div className="flex mt-20">
         <Sidebar />
         <div className="flex flex-col items-center gap-6 p-10">
           <AnimatePresence>
             <motion.div
-              key="profile" 
+              key="profile"
               variants={fadeScaleVariants}
               initial="initial"
               animate="animate"
@@ -32,7 +32,7 @@ export default function AccountSettings() {
             </motion.div>
 
             <motion.div
-              key="password" 
+              key="password"
               variants={fadeScaleVariants}
               initial="initial"
               animate="animate"
