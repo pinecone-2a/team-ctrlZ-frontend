@@ -50,7 +50,7 @@ export default function VPmain() {
               </Avatar>
               <Link href={"/accountSettings"}>
                 <Button>Edit page</Button>
-              </Link>{" "}
+              </Link>
             </div>
             <div className="bg-[#E4E4E7] h-[1px] w-full mt-7"> </div>
             <h1 className="font-semibold text-[16px] mt-4">

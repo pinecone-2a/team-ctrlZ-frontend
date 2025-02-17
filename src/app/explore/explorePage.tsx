@@ -34,8 +34,8 @@ export default function Explore() {
   }, []);
   console.log(data);
   return (
-    <div>
-      <div className="w-[909px] h-[340px]  ">
+    <div className="flex mr-[50px]">
+      <div className="w-[1450px] ">
         <div className="mb-20 mt-12 ">
           Explore creaters
           <Input

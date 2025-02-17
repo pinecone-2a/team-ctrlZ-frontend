@@ -68,7 +68,7 @@ export default function Header() {
         <p>{data.name || "User"}</p>
         <Select onValueChange={(value) => value === "logout" && handleLogout()}>
           <SelectTrigger>
-            <SelectValue placeholder="Logout" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="logout">Logout</SelectItem>
