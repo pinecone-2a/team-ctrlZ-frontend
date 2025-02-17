@@ -26,29 +26,6 @@ export default function LogCard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<any>([]);
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/auth/sign-in", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      setData(data);
-      console.log("Response:", data);
-      setLoading(true);
-      if (data.code === "Succesfully signed in") {
-        setTimeout(() => {
-          router.push("/profile");
-        }, 4000);
-      }
-      if (data.code === "Incorrect Password") {
-        setLoading(false);
-      }
-    } catch (e) {
-      console.error("Error:", e);
-    }
-  };
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -75,6 +52,40 @@ export default function LogCard() {
     }
 
     if (!valid) return;
+  };
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      );
+      const data = await response.json();
+      setData(data);
+      console.log("Response:", data);
+
+      if (data.code === "Incorrect Password") {
+        setLoading(false);
+        return;
+      }
+
+      if (data.data.profile && data.data.bankCard) {
+        router.push("/home");
+      } else if (data.data.profile == null) {
+        router.push("/profile");
+      } else if (data.data.bankCard == null) {
+        router.push("/profile/payment");
+      }
+    } catch (e) {
+      console.error("Error:", e);
+      setLoading(false);
+    }
   };
 
   return (

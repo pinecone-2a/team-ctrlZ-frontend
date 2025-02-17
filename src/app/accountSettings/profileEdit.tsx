@@ -75,6 +75,9 @@ export default function EditProfile() {
   return (
     <div>
       <div>
+        <p className=" text-[32px] text-[#09090B] font-extrabold mb-12 -mt-10">
+          My account
+        </p>
         <Card className="bg-white p-6 rounded-lg shadow-none w-[651px]">
           <CardHeader>
             <CardTitle>Uptade your profile page</CardTitle>

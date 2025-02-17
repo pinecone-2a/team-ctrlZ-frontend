@@ -1,8 +1,10 @@
 "use client";
 
-import VPmain from "./viewpage";
-import Header from "../_components/header";
+import Header from "@/app/profile/Header";
+
 import { AnimatePresence, motion } from "framer-motion";
+import EachProfile from "../eachProfile";
+
 const fadeScaleVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0.5 } },
@@ -15,13 +17,13 @@ export default function ViewPageMain() {
       <Header />
       <AnimatePresence>
         <motion.div
-          key="viewpage" 
+          key="viewpage"
           variants={fadeScaleVariants}
           initial="initial"
           animate="animate"
           exit="exit"
         >
-          <VPmain />
+          <EachProfile />
         </motion.div>
       </AnimatePresence>
     </div>
