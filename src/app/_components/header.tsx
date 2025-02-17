@@ -7,6 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useCookies } from "next-client-cookies";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
@@ -27,6 +36,7 @@ export default function Header() {
   }
 
   const [data, setData] = useState<{ avatarImage?: string; name?: string }>({});
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -53,7 +63,7 @@ export default function Header() {
   };
 
   return (
-    <div className="flex h-[56px] justify-between w-[95%] mx-auto p-8">
+    <div className="flex h-[56px] justify-between w-[97%] mx-auto p-8">
       <Link href="/home">
         <div className="flex items-center gap-2 ml-16">
           <Coffee className="w-9 h-9" />
@@ -62,18 +72,39 @@ export default function Header() {
       </Link>
 
       <div className="flex items-center gap-3 mr-28">
-        {data.avatarImage && (
+        {data.avatarImage ? (
           <img src={data.avatarImage} className="w-10 h-10 rounded-full" />
+        ) : (
+          <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
         )}
         <p>{data.name || "User"}</p>
-        <Select onValueChange={(value) => value === "logout" && handleLogout()}>
+        <Select
+          onValueChange={(value) =>
+            value === "logout" && setShowLogoutDialog(true)
+          }
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Logout" />
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="logout">Logout</SelectItem>
+            <SelectItem value="logout">Log out</SelectItem>
           </SelectContent>
         </Select>
+        <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+          <DialogTrigger asChild>
+            <div />
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you sure you want to log out?</DialogTitle>
+              <DialogDescription>
+                <Button className="w-full mt-4" onClick={handleLogout}>
+                  Confirm
+                </Button>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
