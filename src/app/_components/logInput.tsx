@@ -61,8 +61,10 @@ export default function LogCard() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-
+          headers: {
+            "Content-Type": "application/json",
+            Origin: "https://team-ctrl-z-frontend.vercel.app/",
+          },
           credentials: "include",
           body: JSON.stringify({ email, password }),
         }
