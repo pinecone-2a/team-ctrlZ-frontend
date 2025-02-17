@@ -56,7 +56,7 @@ export default function LogCard() {
   const handleLogin = async () => {
     try {
       setLoading(true);
-
+      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
         {
