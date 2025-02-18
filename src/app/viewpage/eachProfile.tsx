@@ -23,7 +23,7 @@ export default function EachProfile() {
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
   const { name } = useParams();
-
+  const [loading, setLoading] = useState(false);
   const { userId } = jwtDecode(accessToken) as JwtPayload & {
     userId: string;
   };
@@ -54,6 +54,7 @@ export default function EachProfile() {
   }, [name]);
 
   const sendDonation = async () => {
+    setLoading(true);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/create-donation`,
@@ -70,7 +71,10 @@ export default function EachProfile() {
           }),
         }
       );
-      const response = await res.json();
+      const response = await await res.json();
+      if (response) {
+        setLoading(false);
+      }
       console.log(response);
       return response;
     } catch (error) {

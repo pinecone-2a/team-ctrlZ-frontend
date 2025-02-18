@@ -26,7 +26,7 @@ export default function HomePage() {
     userId: string;
   };
   console.log(userId);
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<Data>();
   const [donations, setDonations] = useState<any>([]);
   const [totalDonation, setTotalDonation] = useState<any>();
   const totalEarnings = totalDonation?.totalEarnings;
@@ -57,7 +57,6 @@ export default function HomePage() {
     }
   }, [userId]);
   console.log(data);
-  // console.log(totalDonation?.totalEarnings);
   return (
     <div className="flex w-3/4">
       <div className="">
