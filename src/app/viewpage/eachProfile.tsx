@@ -10,7 +10,7 @@ import { useCookies } from "next-client-cookies";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import { useParams } from "next/navigation";
-import { Toaster, toast } from "sonner";
+
 import {
   Dialog,
   DialogContent,
@@ -88,10 +88,8 @@ export default function EachProfile() {
     const paymentResponse = await sendDonation();
     try {
       if (paymentResponse) {
-        toast.success(`You donated to ${data.name} ${amount} successfully`);
       }
     } catch (error) {
-      toast.error("Donation failed");
     } finally {
       setIsSubmitting(false);
       setIsDialogOpen(false);
@@ -212,7 +210,6 @@ export default function EachProfile() {
                   </div>
                 </div>
                 <div>
-                  <Toaster position="top-center" />
                   <Button
                     className="font-extrabold w-full mt-10"
                     onClick={handlePayment}

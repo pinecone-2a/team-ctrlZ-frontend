@@ -26,7 +26,6 @@ export default function Header() {
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
   const router = useRouter();
-
   let userId = "";
   try {
     const decoded = jwtDecode<{ userId: string }>(accessToken);
@@ -69,7 +68,6 @@ export default function Header() {
           <Coffee className="w-9 h-9" />
           <p className="text-xl font-bold">Buy Me Coffee</p>
         </div>
-        <Header />
       </Link>
 
       <div className="flex items-center gap-3 mr-28 mt-6">
