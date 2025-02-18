@@ -105,58 +105,58 @@ export default function EditPayment() {
       } catch (error) {
         console.error("Error submitting profile:", error);
       }
-    };
+    }
   };
 
   return (
     <div>
-        <div>
-          <div className="bg-white border rounded-2xl w-[651px] p-5">
-            <h2 className="text-xl">How would you like to be paid?</h2>
-            <p className="text-gray-500 text-sm mb-6">
-              Enter location and payment details
-            </p>
-            <CountrySelect
-              onSelect={(value) => setForm({ ...form, country: value })}
-              error={errors.country}
-            />
+      <div>
+        <div className="bg-white border rounded-2xl w-[651px] p-5">
+          <h2 className="text-xl">How would you like to be paid?</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Enter location and payment details
+          </p>
+          <CountrySelect
+            onSelect={(value) => setForm({ ...form, country: value })}
+            error={errors.country}
+          />
 
-            <div className="flex gap-4 mt-4">
-              <div className="w-1/2">
-                <label className="block font-medium">First name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={form.firstName}
-                  onChange={handleChange}
-                  placeholder="Enter your first name"
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.firstName ? "border-red-500" : ""
-                  }`}
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm">First name is required</p>
-                )}
+          <div className="flex gap-4 mt-4">
+            <div className="w-1/2">
+              <label className="block font-medium">First name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                placeholder="Enter your first name"
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.firstName ? "border-red-500" : ""
+                }`}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">First name is required</p>
+              )}
             </div>
 
             <div className="w-1/2">
-                <label className="block font-medium">Last name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={form.lastName}
-                  onChange={handleChange}
-                  placeholder="Enter your last name"
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.lastName ? "border-red-500" : ""
-                  }`}
-                />
-                {errors.lastName && (
-                  <p className="text-red-500 text-sm">Last name is required</p>
-                )}
+              <label className="block font-medium">Last name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                placeholder="Enter your last name"
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.lastName ? "border-red-500" : ""
+                }`}
+              />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">Last name is required</p>
+              )}
             </div>
           </div>
-  
+
           <label className="block font-medium mt-4">Enter card number</label>
           <input
             type="text"
@@ -165,7 +165,7 @@ export default function EditPayment() {
             onChange={handleCardNumberChange}
             placeholder="XXXX-XXXX-XXXX-XXXX"
             className={`w-full p-2 mt-1 border rounded-md ${
-            errors.cardNumber ? "border-red-500" : ""
+              errors.cardNumber ? "border-red-500" : ""
             }`}
           />
           {errors.cardNumber && (
@@ -173,7 +173,7 @@ export default function EditPayment() {
               Invalid card number (16 digits required)
             </p>
           )}
-  
+
           <div className="flex gap-4 mt-4">
             <div className="w-1/3">
               <label className="block font-medium">Expires</label>
@@ -186,69 +186,69 @@ export default function EditPayment() {
                 }`}
               >
                 <option value="">Month</option>
-                  {[...Array(12)].map((_, i) => (
-                    <option key={i} value={(i + 1).toString().padStart(2, "0")}>
-                      {i + 1}
-                    </option>
-                  ))}
+                {[...Array(12)].map((_, i) => (
+                  <option key={i} value={(i + 1).toString().padStart(2, "0")}>
+                    {i + 1}
+                  </option>
+                ))}
               </select>
               {errors.month && (
                 <p className="text-red-500 text-sm">Invalid month</p>
               )}
-              </div>
-              <div className="w-1/3">
-                <label className="block font-medium">Year</label>
-                <select
-                  name="year"
-                  value={form.year}
-                  onChange={handleChange}
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.year ? "border-red-500" : ""
-                  }`}
-                >
-                  <option value="">Year</option>
-                  {[...Array(10)].map((_, i) => (
-                    <option
-                      key={i}
-                      value={(new Date().getFullYear() + i).toString()}
-                    >
-                      {new Date().getFullYear() + i}
-                    </option>
-                  ))}
-                </select>
-                {errors.year && (
-                  <p className="text-red-500 text-sm">Invalid year</p>
-                )}
-              </div>
-              <div className="w-1/3">
-                <label className="block font-medium">CVC</label>
-                <input
-                  type="text"
-                  name="cvc"
-                  value={form.cvc}
-                  onChange={handleChange}
-                  placeholder="CVC"
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.cvc ? "border-red-500" : ""
-                  }`}
-                />
-                {errors.cvc && (
-                  <p className="text-red-500 text-sm">
-                    Invalid CVC (3 digits required)
-                  </p>
-                )}
-              </div>
             </div>
-            <div className="flex justify-end">
-              <button
-                onClick={handleSubmit}
-                className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
+            <div className="w-1/3">
+              <label className="block font-medium">Year</label>
+              <select
+                name="year"
+                value={form.year}
+                onChange={handleChange}
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.year ? "border-red-500" : ""
+                }`}
               >
-                Continue
-              </button>
+                <option value="">Year</option>
+                {[...Array(10)].map((_, i) => (
+                  <option
+                    key={i}
+                    value={(new Date().getFullYear() + i).toString()}
+                  >
+                    {new Date().getFullYear() + i}
+                  </option>
+                ))}
+              </select>
+              {errors.year && (
+                <p className="text-red-500 text-sm">Invalid year</p>
+              )}
+            </div>
+            <div className="w-1/3">
+              <label className="block font-medium">CVC</label>
+              <input
+                type="text"
+                name="cvc"
+                value={form.cvc}
+                onChange={handleChange}
+                placeholder="CVC"
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.cvc ? "border-red-500" : ""
+                }`}
+              />
+              {errors.cvc && (
+                <p className="text-red-500 text-sm">
+                  Invalid CVC (3 digits required)
+                </p>
+              )}
             </div>
           </div>
+          <div className="flex justify-end">
+            <button
+              onClick={handleSubmit}
+              className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
+            >
+              Continue
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-  )
-};
+  );
+}
