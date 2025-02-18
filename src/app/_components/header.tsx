@@ -29,8 +29,8 @@ export default function Header() {
 
   let userId = "";
   try {
-    const decoded = jwtDecode<{ userId: string }>(accessToken);
-    userId = decoded.userId;
+    // const decoded = jwtDecode<{ userId: string }>(accessToken);
+    // userId = decoded.userId;
   } catch (error) {
     console.error("Invalid token:", error);
   }
