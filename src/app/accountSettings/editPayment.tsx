@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CountrySelect from "../profile/CountrySelect";
-// import { decodeToken } from "@/middleware";
+import { decodeToken } from "@/middleware";
 import { JwtPayload } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
@@ -11,9 +11,9 @@ export default function EditPayment() {
   const router = useRouter();
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
-  // const { userId } = decodeToken(accessToken) as JwtPayload & {
-  //   userId: string;
-  // };
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
 
   useEffect(() => {
     const savedName = localStorage.getItem("userName");

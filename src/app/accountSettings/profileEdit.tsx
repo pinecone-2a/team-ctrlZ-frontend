@@ -15,7 +15,7 @@ import EditPassword from "./passwordEdit";
 import Lottie from "lottie-react";
 import loading from "./loading.json";
 import { Camera } from "lucide-react";
-// import { decodeToken } from "@/middleware";
+import { decodeToken } from "@/middleware";
 import { JwtPayload } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
@@ -27,9 +27,9 @@ export default function EditProfile() {
   const [socialMedia, setSocialMedia] = useState("");
     const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
-  // const { userId } = decodeToken(accessToken) as JwtPayload & {
-  //   userId: string;
-  // };
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
 
   const [form, setForm] = useState({
     image: "",
