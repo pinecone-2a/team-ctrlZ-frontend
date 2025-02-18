@@ -2,11 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Coffee } from "lucide-react";
 import CountrySelect from "../profile/CountrySelect";
+import { decodeToken } from "@/middleware";
+import { JwtPayload } from "jwt-decode";
+import { useCookies } from "next-client-cookies";
 
 export default function EditPayment() {
   const router = useRouter();
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
 
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
@@ -14,6 +21,7 @@ export default function EditPayment() {
       setForm((prev) => ({ ...prev, firstName: savedName }));
     }
   }, []);
+
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -33,9 +41,9 @@ export default function EditPayment() {
     year: false,
     cvc: false,
   });
+
   const formatCardNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "").slice(0, 16);
-
     return numericValue.replace(/(\d{4})/g, "$1-").replace(/-$/, "");
   };
 
@@ -52,7 +60,7 @@ export default function EditPayment() {
     setErrors({ ...errors, [e.target.name]: false });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       country: form.country === "",
       firstName: form.firstName.trim() === "",
@@ -67,57 +75,88 @@ export default function EditPayment() {
 
     if (!Object.values(newErrors).includes(true)) {
       console.log("Form submitted:", form);
-    }
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/bank-card/${userId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              country: form.country,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              cardNumber: form.cardNumber,
+              expiryDate: `${form.year}-${form.month}-23`,
+            }),
+          }
+        );
+
+        if (res.ok) {
+          setTimeout(() => {
+            router.push("/home");
+          }, 2500);
+        } else {
+          const errorText = await res.text();
+          console.error("Failed to submit profile:", errorText);
+        }
+      } catch (error) {
+        console.error("Error submitting profile:", error);
+      }
+    };
   };
 
   return (
     <div>
-      <div>
-        <div className="bg-white border rounded-2xl w-[651px] p-5">
-          <h2 className="text-xl">How would you like to be paid?</h2>
-          <p className="text-gray-500 text-sm mb-6">
-            Enter location and payment details
-          </p>
+        <div>
+          <div className="bg-white border rounded-2xl w-[651px] p-5">
+            <h2 className="text-xl">How would you like to be paid?</h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Enter location and payment details
+            </p>
+            <CountrySelect
+              onSelect={(value) => setForm({ ...form, country: value })}
+              error={errors.country}
+            />
 
-          <CountrySelect
-            onSelect={(value) => setForm({ ...form, country: value })}
-            error={errors.country}
-          />
-          <div className="flex gap-4 mt-4">
-            <div className="w-1/2">
-              <label className="block font-medium">First name</label>
-              <input
-                type="text"
-                name="firstName"
-                value={form.firstName}
-                onChange={handleChange}
-                placeholder="Enter your first name"
-                className={`w-full p-2 mt-1 border rounded-md ${
-                  errors.firstName ? "border-red-500" : ""
-                }`}
-              />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm">First name is required</p>
-              )}
+            <div className="flex gap-4 mt-4">
+              <div className="w-1/2">
+                <label className="block font-medium">First name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter your first name"
+                  className={`w-full p-2 mt-1 border rounded-md ${
+                    errors.firstName ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.firstName && (
+                  <p className="text-red-500 text-sm">First name is required</p>
+                )}
             </div>
+
             <div className="w-1/2">
-              <label className="block font-medium">Last name</label>
-              <input
-                type="text"
-                name="lastName"
-                value={form.lastName}
-                onChange={handleChange}
-                placeholder="Enter your last name"
-                className={`w-full p-2 mt-1 border rounded-md ${
-                  errors.lastName ? "border-red-500" : ""
-                }`}
-              />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm">Last name is required</p>
-              )}
+                <label className="block font-medium">Last name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter your last name"
+                  className={`w-full p-2 mt-1 border rounded-md ${
+                    errors.lastName ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-sm">Last name is required</p>
+                )}
             </div>
           </div>
-
+  
           <label className="block font-medium mt-4">Enter card number</label>
           <input
             type="text"
@@ -126,16 +165,15 @@ export default function EditPayment() {
             onChange={handleCardNumberChange}
             placeholder="XXXX-XXXX-XXXX-XXXX"
             className={`w-full p-2 mt-1 border rounded-md ${
-              errors.cardNumber ? "border-red-500" : ""
+            errors.cardNumber ? "border-red-500" : ""
             }`}
           />
-
           {errors.cardNumber && (
             <p className="text-red-500 text-sm">
               Invalid card number (16 digits required)
             </p>
           )}
-
+  
           <div className="flex gap-4 mt-4">
             <div className="w-1/3">
               <label className="block font-medium">Expires</label>
@@ -148,69 +186,69 @@ export default function EditPayment() {
                 }`}
               >
                 <option value="">Month</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i} value={(i + 1).toString().padStart(2, "0")}>
-                    {i + 1}
-                  </option>
-                ))}
+                  {[...Array(12)].map((_, i) => (
+                    <option key={i} value={(i + 1).toString().padStart(2, "0")}>
+                      {i + 1}
+                    </option>
+                  ))}
               </select>
               {errors.month && (
                 <p className="text-red-500 text-sm">Invalid month</p>
               )}
+              </div>
+              <div className="w-1/3">
+                <label className="block font-medium">Year</label>
+                <select
+                  name="year"
+                  value={form.year}
+                  onChange={handleChange}
+                  className={`w-full p-2 mt-1 border rounded-md ${
+                    errors.year ? "border-red-500" : ""
+                  }`}
+                >
+                  <option value="">Year</option>
+                  {[...Array(10)].map((_, i) => (
+                    <option
+                      key={i}
+                      value={(new Date().getFullYear() + i).toString()}
+                    >
+                      {new Date().getFullYear() + i}
+                    </option>
+                  ))}
+                </select>
+                {errors.year && (
+                  <p className="text-red-500 text-sm">Invalid year</p>
+                )}
+              </div>
+              <div className="w-1/3">
+                <label className="block font-medium">CVC</label>
+                <input
+                  type="text"
+                  name="cvc"
+                  value={form.cvc}
+                  onChange={handleChange}
+                  placeholder="CVC"
+                  className={`w-full p-2 mt-1 border rounded-md ${
+                    errors.cvc ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.cvc && (
+                  <p className="text-red-500 text-sm">
+                    Invalid CVC (3 digits required)
+                  </p>
+                )}
+              </div>
             </div>
-            <div className="w-1/3">
-              <label className="block font-medium">Year</label>
-              <select
-                name="year"
-                value={form.year}
-                onChange={handleChange}
-                className={`w-full p-2 mt-1 border rounded-md ${
-                  errors.year ? "border-red-500" : ""
-                }`}
+            <div className="flex justify-end">
+              <button
+                onClick={handleSubmit}
+                className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
               >
-                <option value="">Year</option>
-                {[...Array(10)].map((_, i) => (
-                  <option
-                    key={i}
-                    value={(new Date().getFullYear() + i).toString()}
-                  >
-                    {new Date().getFullYear() + i}
-                  </option>
-                ))}
-              </select>
-              {errors.year && (
-                <p className="text-red-500 text-sm">Invalid year</p>
-              )}
+                Continue
+              </button>
             </div>
-            <div className="w-1/3">
-              <label className="block font-medium">CVC</label>
-              <input
-                type="text"
-                name="cvc"
-                value={form.cvc}
-                onChange={handleChange}
-                placeholder="CVC"
-                className={`w-full p-2 mt-1 border rounded-md ${
-                  errors.cvc ? "border-red-500" : ""
-                }`}
-              />
-              {errors.cvc && (
-                <p className="text-red-500 text-sm">
-                  Invalid CVC (3 digits required)
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <button
-              onClick={handleSubmit}
-              className="w-[246px] mt-6 p-2  bg-gray-400 rounded-md hover:bg-[#18181B] transition-all text-[#FAFAFA] "
-            >
-              Continue
-            </button>
           </div>
         </div>
-      </div>
     </div>
-  );
-}
+  )
+};
