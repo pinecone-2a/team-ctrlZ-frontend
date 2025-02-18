@@ -63,7 +63,6 @@ export default function LogCard() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Origin: "https://team-ctrl-z-frontend.vercel.app/",
           },
           credentials: "include",
           body: JSON.stringify({ email, password }),

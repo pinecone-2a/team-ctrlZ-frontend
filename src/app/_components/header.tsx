@@ -26,11 +26,10 @@ export default function Header() {
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
   const router = useRouter();
-
   let userId = "";
   try {
-    const decoded = jwtDecode<{ userId: string }>(accessToken);
-    userId = decoded.userId;
+    // const decoded = jwtDecode<{ userId: string }>(accessToken);
+    // userId = decoded.userId;
   } catch (error) {
     console.error("Invalid token:", error);
   }
@@ -71,7 +70,7 @@ export default function Header() {
         </div>
       </Link>
 
-      <div className="flex items-center gap-3 mr-28">
+      <div className="flex items-center gap-3 mr-28 mt-6">
         {data.avatarImage ? (
           <img src={data.avatarImage} className="w-10 h-10 rounded-full" />
         ) : (

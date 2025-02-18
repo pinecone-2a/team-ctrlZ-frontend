@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Coffee } from "lucide-react";
 import CountrySelect from "../profile/CountrySelect";
 import { decodeToken } from "@/middleware";
 import { JwtPayload } from "jwt-decode";
@@ -45,7 +44,6 @@ export default function EditPayment() {
 
   const formatCardNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "").slice(0, 16);
-
     return numericValue.replace(/(\d{4})/g, "$1-").replace(/-$/, "");
   };
 
@@ -107,21 +105,22 @@ export default function EditPayment() {
       } catch (error) {
         console.error("Error submitting profile:", error);
       }
-      }
-    }
-    return (
-      <div>
+    };
+  };
+
+  return (
+    <div>
         <div>
           <div className="bg-white border rounded-2xl w-[651px] p-5">
             <h2 className="text-xl">How would you like to be paid?</h2>
             <p className="text-gray-500 text-sm mb-6">
               Enter location and payment details
             </p>
-  
             <CountrySelect
               onSelect={(value) => setForm({ ...form, country: value })}
               error={errors.country}
             />
+
             <div className="flex gap-4 mt-4">
               <div className="w-1/2">
                 <label className="block font-medium">First name</label>
@@ -138,8 +137,9 @@ export default function EditPayment() {
                 {errors.firstName && (
                   <p className="text-red-500 text-sm">First name is required</p>
                 )}
-              </div>
-              <div className="w-1/2">
+            </div>
+
+            <div className="w-1/2">
                 <label className="block font-medium">Last name</label>
                 <input
                   type="text"
@@ -154,48 +154,47 @@ export default function EditPayment() {
                 {errors.lastName && (
                   <p className="text-red-500 text-sm">Last name is required</p>
                 )}
-              </div>
             </div>
+          </div>
   
-            <label className="block font-medium mt-4">Enter card number</label>
-            <input
-              type="text"
-              name="cardNumber"
-              value={form.cardNumber}
-              onChange={handleCardNumberChange}
-              placeholder="XXXX-XXXX-XXXX-XXXX"
-              className={`w-full p-2 mt-1 border rounded-md ${
-                errors.cardNumber ? "border-red-500" : ""
-              }`}
-            />
+          <label className="block font-medium mt-4">Enter card number</label>
+          <input
+            type="text"
+            name="cardNumber"
+            value={form.cardNumber}
+            onChange={handleCardNumberChange}
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            className={`w-full p-2 mt-1 border rounded-md ${
+            errors.cardNumber ? "border-red-500" : ""
+            }`}
+          />
+          {errors.cardNumber && (
+            <p className="text-red-500 text-sm">
+              Invalid card number (16 digits required)
+            </p>
+          )}
   
-            {errors.cardNumber && (
-              <p className="text-red-500 text-sm">
-                Invalid card number (16 digits required)
-              </p>
-            )}
-  
-            <div className="flex gap-4 mt-4">
-              <div className="w-1/3">
-                <label className="block font-medium">Expires</label>
-                <select
-                  name="month"
-                  value={form.month}
-                  onChange={handleChange}
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.month ? "border-red-500" : ""
-                  }`}
-                >
-                  <option value="">Month</option>
+          <div className="flex gap-4 mt-4">
+            <div className="w-1/3">
+              <label className="block font-medium">Expires</label>
+              <select
+                name="month"
+                value={form.month}
+                onChange={handleChange}
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.month ? "border-red-500" : ""
+                }`}
+              >
+                <option value="">Month</option>
                   {[...Array(12)].map((_, i) => (
                     <option key={i} value={(i + 1).toString().padStart(2, "0")}>
                       {i + 1}
                     </option>
                   ))}
-                </select>
-                {errors.month && (
-                  <p className="text-red-500 text-sm">Invalid month</p>
-                )}
+              </select>
+              {errors.month && (
+                <p className="text-red-500 text-sm">Invalid month</p>
+              )}
               </div>
               <div className="w-1/3">
                 <label className="block font-medium">Year</label>
@@ -250,6 +249,6 @@ export default function EditPayment() {
             </div>
           </div>
         </div>
-      </div>
-    )
-}
+    </div>
+  )
+};

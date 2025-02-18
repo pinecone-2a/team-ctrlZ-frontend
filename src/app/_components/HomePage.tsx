@@ -21,41 +21,41 @@ type Data = {
 };
 export default function HomePage() {
   const cookies = useCookies();
-  const accessToken = cookies.get("accessToken") || "";
-  const { userId } = decodeToken(accessToken) as JwtPayload & {
-    userId: string;
-  };
-  console.log(userId);
+  // const accessToken = cookies.get("accessToken") || "";
+  // const { userId } = decodeToken(accessToken) as JwtPayload & {
+  //   userId: string;
+  // };
+  // console.log(userId);
   const [data, setData] = useState<Data>();
   const [donations, setDonations] = useState<any>([]);
   const [totalDonation, setTotalDonation] = useState<any>();
   const totalEarnings = totalDonation?.totalEarnings;
-  async function getFetchData() {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`)
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }
+  // async function getFetchData() {
+  //   fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }
 
-  async function getDonationData() {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/${userId}`)
-      .then((res) => res.json())
-      .then((data) => setDonations(data));
-  }
-  async function getTotalDonation() {
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/total-earnings/${userId}`
-    )
-      .then((res) => res.json())
-      .then((data) => setTotalDonation(data));
-    console.log(userId);
-  }
-  useEffect(() => {
-    if (userId) {
-      getFetchData();
-      getDonationData();
-      getTotalDonation();
-    }
-  }, [userId]);
+  // async function getDonationData() {
+  //   fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/${userId}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setDonations(data));
+  // }
+  // async function getTotalDonation() {
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/total-earnings/${userId}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => setTotalDonation(data));
+  //   console.log(userId);
+  // }
+  // useEffect(() => {
+  //   if (userId) {
+  //     getFetchData();
+  //     getDonationData();
+  //     getTotalDonation();
+  //   }
+  // }, [userId]);
   console.log(data);
   return (
     <div className="flex w-3/4">

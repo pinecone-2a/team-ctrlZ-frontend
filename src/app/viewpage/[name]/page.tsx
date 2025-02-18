@@ -1,9 +1,10 @@
 "use client";
 
-import Header from "@/app/profile/Header";
+// import Header from "@/app/profile/Header";
 
 import { AnimatePresence, motion } from "framer-motion";
 import EachProfile from "../eachProfile";
+import Header from "@/app/_components/header";
 
 const fadeScaleVariants = {
   initial: { opacity: 0 },
