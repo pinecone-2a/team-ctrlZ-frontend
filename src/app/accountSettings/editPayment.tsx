@@ -22,6 +22,7 @@ export default function EditPayment() {
       setForm((prev) => ({ ...prev, firstName: savedName }));
     }
   }, []);
+
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -41,6 +42,7 @@ export default function EditPayment() {
     year: false,
     cvc: false,
   });
+
   const formatCardNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "").slice(0, 16);
 
