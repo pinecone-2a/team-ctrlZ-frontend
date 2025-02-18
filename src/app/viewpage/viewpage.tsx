@@ -94,7 +94,7 @@ export default function VPmain() {
     <div>
       <Label>
         <div
-          className="w-full h-[450px] flex justify-center items-center relative"
+          className="w-full h-[450px] flex justify-center items-center relative mt-10"
           style={{
             backgroundImage: backgroundImage
               ? `url(${backgroundImage})`
@@ -133,18 +133,20 @@ export default function VPmain() {
         </div>
       </Label>
 
-      <div className="flex justify-center gap-16 relative top-[350px]">
+      <div className="flex justify-center gap-16 absolute  top-[500px] left-[400px]">
         <div className="flex flex-col gap-6">
           <Card className="w-[623px] h-[233px] p-6">
             <div className="flex justify-between">
               <Avatar>
                 <AvatarImage src={data.avatarImage} />
               </Avatar>
+              <p className="font-extrabold text-2xl  ">{data.name}</p>
               <Link href="/accountSettings">
                 <Button>Edit page</Button>
               </Link>
             </div>
-            <div className="bg-[#E4E4E7] h-[1px] w-full mt-7"></div>
+
+            <div className="bg-[#E4E4E7] h-[1px] w-full mt-7"> </div>
             <h1 className="font-semibold text-[16px] mt-4">
               About {data.name}
             </h1>
