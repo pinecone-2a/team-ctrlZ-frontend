@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import LogCard from "./logInput";
 import { Coffee } from "lucide-react";
+import { Toaster } from "sonner";
 export default function Login() {
   return (
     <div className="flex items-center min-h-screen ">
+      <Toaster richColors position="top-center" />
       <div className="h-screen w-1/2 bg-[#FBBF24] items-center relative ">
         <div className="flex gap-2 absolute left-32 top-16  ">
           <Coffee size={30} />

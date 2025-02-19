@@ -11,6 +11,8 @@ import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import { useParams } from "next/navigation";
 import { Toaster, toast } from "sonner";
+import Lottie from "lottie-react";
+import dotLoad from "./tsegLoad.json";
 import {
   Dialog,
   DialogContent,
@@ -34,6 +36,7 @@ export default function EachProfile() {
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [payButton, setPayButton] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -88,7 +91,7 @@ export default function EachProfile() {
     const paymentResponse = await sendDonation();
     try {
       if (paymentResponse) {
-        toast.success(`You donated to ${data.name} ${amount} successfully`);
+        toast.success(`You donated to ${data.name} $${amount} successfully`);
       }
     } catch (error) {
       toast.error("Donation failed");
@@ -100,6 +103,7 @@ export default function EachProfile() {
 
   return (
     <div>
+      <Toaster richColors position="top-center" />
       <div
         style={{
           backgroundImage: `url(${data.backgroundImage})`,
@@ -211,16 +215,19 @@ export default function EachProfile() {
                     ${amount}
                   </div>
                 </div>
-                <div>
-                  <Toaster position="top-center" />
-                  <Button
-                    className="font-extrabold w-full mt-10"
-                    onClick={handlePayment}
-                    disabled={isSubmitting}
-                  >
-                    Pay
-                  </Button>
-                </div>
+                <Button
+                  className="font-extrabold w-full mt-10 flex items-center justify-center"
+                  onClick={handlePayment}
+                  disabled={payButton}
+                >
+                  {isSubmitting ? (
+                    <div style={{ width: "50px" }}>
+                      <Lottie animationData={dotLoad} />
+                    </div>
+                  ) : (
+                    "Support"
+                  )}
+                </Button>
                 <div className="flex flex-col items-center text-center mt-6 text-[10px] leading-3">
                   Payment secured by
                   <p className="font-bold font-mono">Chingis</p>

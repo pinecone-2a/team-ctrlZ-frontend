@@ -22,6 +22,7 @@ type Data = {
 export default function HomePage() {
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
+
   const { userId } = decodeToken(accessToken) as JwtPayload & {
     userId: string;
   };

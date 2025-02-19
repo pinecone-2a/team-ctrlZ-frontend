@@ -29,6 +29,7 @@ export default function Header() {
 
   let userId = "";
   try {
+    console.log(cookies);
     const decoded = jwtDecode<{ userId: string }>(accessToken);
     userId = decoded.userId;
   } catch (error) {
@@ -69,7 +70,6 @@ export default function Header() {
           <Coffee className="w-9 h-9" />
           <p className="text-xl font-bold">Buy Me Coffee</p>
         </div>
-        <Header />
       </Link>
 
       <div className="flex items-center gap-3 mr-28 mt-6">

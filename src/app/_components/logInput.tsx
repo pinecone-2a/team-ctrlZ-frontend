@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-// import { headers } from "next/headers";
-// import { response } from "express";
+import { Toaster, toast } from "sonner";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,9 +53,8 @@ export default function LogCard() {
     if (!valid) return;
   };
   const handleLogin = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
         {
@@ -68,24 +66,31 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
+
       const data = await response.json();
-      setData(data);
-      console.log("Response:", data);
+      setLoading(false);
 
       if (data.code === "Incorrect Password") {
-        setLoading(false);
+        toast.error("Incorrect password. Please try again.");
         return;
       }
 
-      if (data.data.profile && data.data.bankCard) {
+      console.log("Response:", data.data);
+
+      const { profile, bankCard } = data.data;
+
+      if (profile && bankCard) {
         router.push("/home");
-      } else if (data.data.profile == null) {
+      } else if (!profile) {
+        toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (data.data.bankCard == null) {
+      } else if (!bankCard) {
+        toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
     } catch (e) {
       console.error("Error:", e);
+      toast.error("Failed to log in. Please try again later.");
       setLoading(false);
     }
   };
