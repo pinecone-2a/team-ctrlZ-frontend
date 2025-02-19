@@ -105,38 +105,38 @@ export default function EditPayment() {
       } catch (error) {
         console.error("Error submitting profile:", error);
       }
-    };
+    }
   };
 
   return (
     <div>
-        <div>
-          <div className="bg-white border rounded-2xl w-[651px] p-5">
-            <h2 className="text-xl">How would you like to be paid?</h2>
-            <p className="text-gray-500 text-sm mb-6">
-              Enter location and payment details
-            </p>
-            <CountrySelect
-              onSelect={(value) => setForm({ ...form, country: value })}
-              error={errors.country}
-            />
+      <div>
+        <div className="bg-white border rounded-2xl w-[651px] p-5">
+          <h2 className="text-xl">How would you like to be paid?</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Enter location and payment details
+          </p>
+          <CountrySelect
+            onSelect={(value) => setForm({ ...form, country: value })}
+            error={errors.country}
+          />
 
-            <div className="flex gap-4 mt-4">
-              <div className="w-1/2">
-                <label className="block font-medium">First name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={form.firstName}
-                  onChange={handleChange}
-                  placeholder="Enter your first name"
-                  className={`w-full p-2 mt-1 border rounded-md ${
-                    errors.firstName ? "border-red-500" : ""
-                  }`}
-                />
-                {errors.firstName && (
-                  <p className="text-red-500 text-sm">First name is required</p>
-                )}
+          <div className="flex gap-4 mt-4">
+            <div className="w-1/2">
+              <label className="block font-medium">First name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                placeholder="Enter your first name"
+                className={`w-full p-2 mt-1 border rounded-md ${
+                  errors.firstName ? "border-red-500" : ""
+                }`}
+              />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">First name is required</p>
+              )}
             </div>
 
             <div className="w-1/2">

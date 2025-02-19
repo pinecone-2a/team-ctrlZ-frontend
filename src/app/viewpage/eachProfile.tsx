@@ -72,9 +72,9 @@ export default function EachProfile() {
         }
       );
       const response = await await res.json();
-      if (response) {
-        setLoading(false);
-      }
+      // if (response) {
+      //   setLoading(false);
+      // }
       console.log(response);
       return response;
     } catch (error) {
@@ -85,14 +85,16 @@ export default function EachProfile() {
 
   const handlePayment = async () => {
     setIsSubmitting(true);
-    const paymentResponse = await sendDonation();
+
     try {
+      const paymentResponse = await sendDonation();
       if (paymentResponse) {
+        setLoading(true); // Open the donation complete dialog
       }
     } catch (error) {
+      console.error("Payment failed:", error);
     } finally {
       setIsSubmitting(false);
-      setIsDialogOpen(false);
     }
   };
 
@@ -184,6 +186,15 @@ export default function EachProfile() {
           </Card>
         </div>
       </div>
+      <Dialog open={loading} onOpenChange={setLoading}>
+        <DialogContent className="relative flex flex-col py-10">
+          <DialogHeader className="mt-4">
+            <DialogTitle className="flex gap-2 font-semibold justify-center mb-1">
+              Donation Complete
+            </DialogTitle>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="relative flex flex-col py-10">
           <div className="relative w-full flex justify-center">
