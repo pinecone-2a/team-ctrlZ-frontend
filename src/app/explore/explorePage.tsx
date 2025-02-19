@@ -24,7 +24,7 @@ export default function Explore() {
       );
       const result = await res.json();
       setData(result);
-      setFilteredData(result); // Ensure filteredData is initially set to all data
+      setFilteredData(result);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

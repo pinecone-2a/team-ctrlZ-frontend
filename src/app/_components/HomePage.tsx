@@ -78,8 +78,8 @@ export default function HomePage() {
               </SelectContent>
             </Select>
           </div>
-          <div className="w-[1450px] border border-[#E4E4E7] rounded-lg p-6 mt-3">
-            {donations?.map((donation: any) => (
+          <div className="w-[1000px]  flex flex-wrap gap-12">
+            {donations?.slice(0.6).map((donation: any) => (
               <DonorInfo key={donation.id} donation={donation} />
             ))}
           </div>
