@@ -58,6 +58,7 @@ export default function PaymentPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: false });
   };
+
   const handleSubmit = async () => {
     const newErrors = {
       country: form.country === "",
@@ -70,6 +71,7 @@ export default function PaymentPage() {
     };
 
     setErrors(newErrors);
+
     if (!Object.values(newErrors).includes(true)) {
       console.log("Form submitted:", form);
 
@@ -104,6 +106,7 @@ export default function PaymentPage() {
       } catch (error) {
         console.error("Error submitting profile:", error);
       }
+
     }
   };
 

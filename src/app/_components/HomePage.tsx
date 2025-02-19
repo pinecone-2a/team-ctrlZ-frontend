@@ -14,6 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect, useId, useState } from "react";
 import { decodeToken } from "@/middleware";
 import { JwtPayload } from "jwt-decode";
+import { DonorInfo } from "./donorInfo";
 type Data = {
   avatarImage: string;
   name: string;
@@ -25,7 +26,7 @@ export default function HomePage() {
   const { userId } = decodeToken(accessToken) as JwtPayload & {
     userId: string;
   };
-  console.log(userId);
+
   const [data, setData] = useState<Data>();
   const [donations, setDonations] = useState<any>([]);
   const [totalDonation, setTotalDonation] = useState<any>();
@@ -47,8 +48,9 @@ export default function HomePage() {
     )
       .then((res) => res.json())
       .then((data) => setTotalDonation(data));
-    console.log(userId);
+    // console.log(userId);
   }
+
   useEffect(() => {
     if (userId) {
       getFetchData();
@@ -56,7 +58,7 @@ export default function HomePage() {
       getTotalDonation();
     }
   }, [userId]);
-  console.log(data);
+
   return (
     <div className="ml-[180px]">
       <div className="flex justify-center items-center flex-col w-[100%]">
@@ -76,28 +78,9 @@ export default function HomePage() {
               </SelectContent>
             </Select>
           </div>
-          <div className="w-[1000px] rounded-lg flex flex-wrap gap-11 mt-6">
-            {donations.slice(0, 6).map((donation: any) => (
-              <div
-                key={donation.id}
-                className=" border-[#E4E4E7] border rounded-2xl  "
-              >
-                <div className="w-[300px] h-[450px] flex flex-col items-center justify-center  ">
-                  <div className="-mt-16 flex flex-col items-center gap-4 font-bold">
-                    <img
-                      src="Avatar.jpg"
-                      className="w-[150px] h-[150px] rounded-full "
-                    />
-                    <p className="text-[20px] text-[#09090B]">Cutiez</p>
-                    <div>
-                      <p className="text-base font-bold ml-12 text-green-500">
-                        +${donation.amount}
-                      </p>
-                      <p className="text-sm">10 mins ago</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="w-[1450px] border border-[#E4E4E7] rounded-lg p-6 mt-3">
+            {donations?.map((donation: any) => (
+              <DonorInfo key={donation.id} donation={donation} />
             ))}
           </div>
         </div>
