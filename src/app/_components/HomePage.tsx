@@ -58,14 +58,14 @@ export default function HomePage() {
   }, [userId]);
   console.log(data);
   return (
-    <div className="flex w-3/4">
-      <div className="">
+    <div className="ml-[180px]">
+      <div className="flex justify-center items-center flex-col w-[100%]">
         <Card data={data} totalEarning={totalEarnings} />
         <div>
           <div className="flex justify-between mt-5 items-center">
-            <p className="text-base font-semibold">Recent transactions</p>
+            <p className="text-2xl font-semibold">Recent transactions</p>
             <Select>
-              <SelectTrigger className="w-[150px] py-5 border border-[#E4E4E7]">
+              <SelectTrigger className="w-[150px] py-5 border-[#E4E4E7] rounded-full">
                 <SelectValue placeholder="Amount" />
               </SelectTrigger>
               <SelectContent>
@@ -76,28 +76,27 @@ export default function HomePage() {
               </SelectContent>
             </Select>
           </div>
-          <div className="w-[1450px] border border-[#E4E4E7] rounded-lg p-6 mt-3">
-            {donations.map((donation: any) => (
-              <div key={donation.id}>
-                <div className="w-[835px] flex justify-between mt-4">
-                  <div className="flex gap-[8px] items-center">
+          <div className="w-[1000px] rounded-lg flex flex-wrap gap-11 mt-6">
+            {donations.slice(0, 6).map((donation: any) => (
+              <div
+                key={donation.id}
+                className=" border-[#E4E4E7] border rounded-2xl  "
+              >
+                <div className="w-[300px] h-[450px] flex flex-col items-center justify-center  ">
+                  <div className="-mt-16 flex flex-col items-center gap-4 font-bold">
                     <img
-                      src="pro.png"
-                      className="w-[40px] h-[40px] rounded-full"
+                      src="Avatar.jpg"
+                      className="w-[150px] h-[150px] rounded-full "
                     />
-                    <div className="flex flex-col text-sm">
-                      <p className="font-bold">Cutiez</p>
-                      <p>{donation.socialURLOrBuyMeACoffee}</p>
+                    <p className="text-[20px] text-[#09090B]">Cutiez</p>
+                    <div>
+                      <p className="text-base font-bold ml-12 text-green-500">
+                        +${donation.amount}
+                      </p>
+                      <p className="text-sm">10 mins ago</p>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-base font-bold ml-12">
-                      +${donation.amount}
-                    </p>
-                    <p className="text-sm">10 mins ago</p>
-                  </div>
                 </div>
-                <p>{donation.specialMessage}</p>
               </div>
             ))}
           </div>
