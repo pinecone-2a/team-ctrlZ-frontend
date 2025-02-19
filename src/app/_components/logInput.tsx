@@ -142,6 +142,11 @@ export default function LogCard() {
           </footer>
         </form>
       </CardContent>
+      <Link href={"/forgotPassword"}>
+        <p className="text-blue-700 flex justify-center font-bold text-[14px]">
+          Forgot password ?
+        </p>
+      </Link>
     </Card>
   );
 }
