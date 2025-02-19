@@ -15,7 +15,7 @@ export default function HomePageDefault() {
   return (
     <div>
       <Header />
-      <div className="flex mt-20">
+      <div className="flex mt-20 ">
         <Sidebar />
         <AnimatePresence>
           <motion.div

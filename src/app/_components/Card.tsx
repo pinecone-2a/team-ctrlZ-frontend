@@ -20,33 +20,34 @@ type CardProps = {
 };
 export default function Card({ data, totalEarning }: CardProps) {
   return (
-    <div className="w-[1450px] h-[350px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
+    <div className="w-[1000px] h-[300px] border border-[#E4E4E7] rounded-2xl p-4 flex flex-col justify-between">
       <div className="flex justify-between  mt-4 ml-4">
         <div className="flex gap-3">
           {data && (
-            <div>
+            <div className="flex gap-3">
               <img
                 className="w-[60px] h-[60px]  rounded-full"
                 src={data.avatarImage}
               />
-              <div>
+              <div className="">
                 <p className="font-bold text-xl">{data.name}</p>
-                <p className="text-md">{data.socialMediaURL}</p>
+                <p className="text-[14px]">{data.socialMediaURL}</p>
               </div>
             </div>
           )}
         </div>
 
-        <div className="rounded-md bg-black w-[159px] h-[40px] text-white flex items-center pl-2 gap-2">
-          <Copy className="w-[16px] h-[16px]" />
-          <button>Share page link</button>
+        <div className="rounded-full bg-black w-[159px] h-[40px] text-white flex items-center gap-2 justify-center ">
+          <Copy className="w-[14px] h-[14px] font-bold" />
+          <button className="text-[15px] font-bold ">Share page</button>
         </div>
       </div>
-      <div>
-        <div className="flex gap-5 items-center">
-          <p className="text-xl font-semibold">Earnings</p>
+      <div className="bg-[#f4f4f4] w-[95%] h-[1px] mx-auto -mt-10"></div>
+      <div className="ml-5 mb-4">
+        <div className="flex gap-6 items-center mb-2 ">
+          <p className="text-2xl font-semibold">Earnings</p>
           <Select>
-            <SelectTrigger className="w-[175px]">
+            <SelectTrigger className="w-[150px] rounded-full border">
               <SelectValue placeholder="Last 30 days" />
             </SelectTrigger>
             <SelectContent>
