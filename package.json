@@ -38,6 +38,7 @@
     "react-router-dom": "^7.1.5",
     "react-select": "^5.10.0",
     "select": "^1.1.2",
+    "sonner": "^1.7.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"

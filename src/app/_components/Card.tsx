@@ -8,27 +8,33 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Copy } from "lucide-react";
-interface CardProps {
-  data: {
-    avatarImage: string;
-    name: string;
-    socialMediaURL: string;
-  };
+type CardProps = {
+  data:
+    | {
+        avatarImage: string;
+        name: string;
+        socialMediaURL: string;
+      }
+    | undefined;
   totalEarning: number;
-}
+};
 export default function Card({ data, totalEarning }: CardProps) {
   return (
     <div className="w-[1450px] h-[350px] border border-[#E4E4E7] rounded-lg p-4 flex flex-col justify-between">
       <div className="flex justify-between  mt-4 ml-4">
         <div className="flex gap-3">
-          <img
-            className="w-[60px] h-[60px]  rounded-full"
-            src={data.avatarImage}
-          />
-          <div>
-            <p className="font-bold text-xl">{data.name}</p>
-            <p className="text-md">{data.socialMediaURL}</p>
-          </div>
+          {data && (
+            <div>
+              <img
+                className="w-[60px] h-[60px]  rounded-full"
+                src={data.avatarImage}
+              />
+              <div>
+                <p className="font-bold text-xl">{data.name}</p>
+                <p className="text-md">{data.socialMediaURL}</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="rounded-md bg-black w-[159px] h-[40px] text-white flex items-center pl-2 gap-2">

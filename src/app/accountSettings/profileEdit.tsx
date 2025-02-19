@@ -15,12 +15,28 @@ import EditPassword from "./passwordEdit";
 import Lottie from "lottie-react";
 import loading from "./loading.json";
 import { Camera } from "lucide-react";
+import { decodeToken } from "@/middleware";
+import { JwtPayload } from "jwt-decode";
+import { useCookies } from "next-client-cookies";
+
 export default function EditProfile() {
   const [image, setImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [socialMedia, setSocialMedia] = useState("");
+    const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
+
+  const [form, setForm] = useState({
+    image: "",
+    name: "",
+    about: "",
+    socialMedia: ""
+  })
 
   const [errors, setErrors] = useState({
     image: false,
@@ -34,6 +50,28 @@ export default function EditProfile() {
   const isValidName = (name: string) => /^[A-Z][a-zA-Z]*$/.test(name);
   const isValidSocialMedia = (link: string) =>
     /^(http:\/\/|https:\/\/)/.test(link);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: false });
+  };
+
+  const handleText = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, about: e.target.value });
+    setErrors({ ...errors, about: false });
+  }
+
+  const handleSocialMedia = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setForm({ ...form, socialMedia: e.target.value });
+    setErrors({ ...errors, socialMedia: false });
+  }
+
   const handleImageUpload = async (file: File) => {
     setUploading(true);
     const formData = new FormData();
@@ -59,7 +97,7 @@ export default function EditProfile() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       image: image === null,
       name: !isValidName(name),
@@ -67,11 +105,38 @@ export default function EditProfile() {
       socialMedia: !isValidSocialMedia(socialMedia),
     };
     setErrors(newErrors);
-
     if (!Object.values(newErrors).includes(true)) {
       localStorage.setItem("userName", name);
-    }
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              image: form.image,
+              name: form.name,
+              about: form.about,
+              socialMedia: form.socialMedia
+            })
+          }
+        )
+        if (res.ok) {
+          setTimeout(() => {
+            router.push("/home")
+          }, 2500)
+        } else {
+          const errorText = await res.text();
+          console.error("Failed to submit profile:", errorText);
+        }
+      } catch (error) {
+        console.error("Error submitting profile:", error);
+      }
+    };
   };
+
   return (
     <div>
       <div>
@@ -92,7 +157,7 @@ export default function EditProfile() {
               >
                 {image ? (
                   <img
-                    src={image}
+                    src={form.image}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />
@@ -123,8 +188,8 @@ export default function EditProfile() {
             <Input
               className={`mt-2 ${errors.name ? "border-red-500" : ""}`}
               placeholder="Enter your name here"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={form.name}
+              onChange={handleChange}
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-2">
@@ -138,8 +203,8 @@ export default function EditProfile() {
                 errors.about ? "border-red-500" : ""
               }`}
               placeholder="Write about yourself here"
-              value={about}
-              onChange={(e) => setAbout(e.target.value)}
+              value={form.about}
+              onChange={handleText}
             />
             {errors.about && (
               <p className="text-red-500 text-sm mt-2">
@@ -151,8 +216,8 @@ export default function EditProfile() {
             <Input
               className={`mt-2 ${errors.socialMedia ? "border-red-500" : ""}`}
               placeholder="Enter your social media link"
-              value={socialMedia}
-              onChange={(e) => setSocialMedia(e.target.value)}
+              value={form.socialMedia}
+              onChange={handleSocialMedia}
             />
             {errors.socialMedia && (
               <p className="text-red-500 text-sm mt-2">
