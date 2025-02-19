@@ -26,7 +26,6 @@ export default function Header() {
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
   const router = useRouter();
-
   let userId = "";
   try {
     console.log(cookies);

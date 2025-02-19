@@ -2,11 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Coffee } from "lucide-react";
 import CountrySelect from "../profile/CountrySelect";
+import { decodeToken } from "@/middleware";
+import { JwtPayload } from "jwt-decode";
+import { useCookies } from "next-client-cookies";
 
 export default function EditPayment() {
   const router = useRouter();
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
+    userId: string;
+  };
 
   useEffect(() => {
     const savedName = localStorage.getItem("userName");
@@ -14,6 +21,7 @@ export default function EditPayment() {
       setForm((prev) => ({ ...prev, firstName: savedName }));
     }
   }, []);
+
   const [form, setForm] = useState({
     country: "",
     firstName: "",
@@ -33,9 +41,9 @@ export default function EditPayment() {
     year: false,
     cvc: false,
   });
+
   const formatCardNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "").slice(0, 16);
-
     return numericValue.replace(/(\d{4})/g, "$1-").replace(/-$/, "");
   };
 
@@ -52,7 +60,7 @@ export default function EditPayment() {
     setErrors({ ...errors, [e.target.name]: false });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {
       country: form.country === "",
       firstName: form.firstName.trim() === "",
@@ -67,6 +75,36 @@ export default function EditPayment() {
 
     if (!Object.values(newErrors).includes(true)) {
       console.log("Form submitted:", form);
+
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/bank-card/${userId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              country: form.country,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              cardNumber: form.cardNumber,
+              expiryDate: `${form.year}-${form.month}-23`,
+            }),
+          }
+        );
+
+        if (res.ok) {
+          setTimeout(() => {
+            router.push("/home");
+          }, 2500);
+        } else {
+          const errorText = await res.text();
+          console.error("Failed to submit profile:", errorText);
+        }
+      } catch (error) {
+        console.error("Error submitting profile:", error);
+      }
     }
   };
 
@@ -78,11 +116,11 @@ export default function EditPayment() {
           <p className="text-gray-500 text-sm mb-6">
             Enter location and payment details
           </p>
-
           <CountrySelect
             onSelect={(value) => setForm({ ...form, country: value })}
             error={errors.country}
           />
+
           <div className="flex gap-4 mt-4">
             <div className="w-1/2">
               <label className="block font-medium">First name</label>
@@ -100,6 +138,7 @@ export default function EditPayment() {
                 <p className="text-red-500 text-sm">First name is required</p>
               )}
             </div>
+
             <div className="w-1/2">
               <label className="block font-medium">Last name</label>
               <input
@@ -129,7 +168,6 @@ export default function EditPayment() {
               errors.cardNumber ? "border-red-500" : ""
             }`}
           />
-
           {errors.cardNumber && (
             <p className="text-red-500 text-sm">
               Invalid card number (16 digits required)
