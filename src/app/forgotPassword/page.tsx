@@ -44,11 +44,14 @@ export default function Home() {
   const validateOTP = (otp: string) => /^\d{6}$/.test(otp);
 
   const sendOTP = async () => {
-    const res = await fetch("http://localhost:4000/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
     if (res.ok) {
       alert("OTP код илгээгдлээ.");
       setIsDialogOpen(true);
@@ -63,11 +66,14 @@ export default function Home() {
       return;
     }
     setOtpError("");
-    const res = await fetch("http://localhost:4000/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userOtp: OTP, email }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userOtp: OTP, email }),
+      }
+    );
     const data = await res.json();
     if (res.ok && data.success) {
       setIsOtpVerified(true);
@@ -81,11 +87,14 @@ export default function Home() {
       setPasswordError("Нууц үг таарахгүй байна.");
       return;
     }
-    const res = await fetch("http://localhost:4000/auth/reset-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, newPassword }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, newPassword }),
+      }
+    );
     const data = await res.json();
     if (data?.code == "PASSWORD_UPDATED_SUCCESSFULLY") {
       alert("Нууц үг амжилттай шинэчлэгдлээ!");
