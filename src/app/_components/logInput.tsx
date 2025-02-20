@@ -104,9 +104,10 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
-            <label htmlFor="email">Email</label>
+            <label className="text-sm" htmlFor="email">Email</label>
             <Input
               id="email"
+              className="mt-2"
               type="email"
               placeholder="Enter email here"
               value={email}
@@ -115,9 +116,10 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
-            <label htmlFor="password">Password</label>
+            <label className="text-sm" htmlFor="password">Password</label>
             <Input
               id="password"
+              className="mt-2"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password here"
               value={password}
@@ -128,7 +130,7 @@ export default function LogCard() {
             )}
             {data.code && <p className="text-red-500 text-sm">{data.code}</p>}
             <p
-              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
+              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-[40px] left-[330px] cursor-pointer"
               onMouseDown={handleClick}
             >
               {showPassword ? <Eye /> : <EyeOff />}
