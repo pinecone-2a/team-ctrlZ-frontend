@@ -21,6 +21,7 @@ type Data = {
   socialMediaURL: string;
 };
 export default function HomePage() {
+  
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
 

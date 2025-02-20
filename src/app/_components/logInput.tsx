@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
 import { Toaster, toast } from "sonner";
 import { waitForDebugger } from "inspector";
+import { useCookies } from "next-client-cookies";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +29,7 @@ export default function LogCard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<any>([]);
-  // const cookieStore = await cookies()
+  const cookies = useCookies();
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -73,16 +74,13 @@ export default function LogCard() {
 
       const data = await response.json();
       setLoading(false);
-      console.log(data)
-
+      console.log(data);
 
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-
-      console.log("Response:", data.data);
-
+      cookies.set("accessToken", data.result);
       const { profile, bankCard } = data.data;
 
       if (profile && bankCard) {
@@ -100,7 +98,7 @@ export default function LogCard() {
       setLoading(false);
     }
   };
-  
+
   return (
     <Card className="w-[414px] shadow-none border-none mx-auto">
       <CardHeader>
