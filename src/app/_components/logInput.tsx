@@ -8,17 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { use, useState } from "react";
-// import { cookies } from "next/headers";
-
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-import { waitForDebugger } from "inspector";
 import { useCookies } from "next-client-cookies";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -73,10 +69,10 @@ export default function LogCard() {
       );
 
       const data = await response.json();
+      cookies.set("accessToken", data.result);
+      cookies.set("refreshToken", data.refreshToken);
       setLoading(false);
-
       if (data.code === "Incorrect Password") {
-        toast.error("Incorrect password. Please try again.");
         toast.error("Incorrect password. Please try again.");
         return;
       }
