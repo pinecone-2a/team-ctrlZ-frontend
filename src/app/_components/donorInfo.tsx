@@ -29,7 +29,11 @@ export const DonorInfo = ({ donation }: any) => {
   console.log(donorProfile);
   return (
     <div key={donation.id}>
+<<<<<<< HEAD
       <div className="w-[300px]  h-[400px] border rounded-2xl ">
+=======
+      <div className="w-[300px]  h-[400px] border rounded-2xl  ">
+>>>>>>> main
         <div className="flex gap-[8px] items-center flex-col">
           <img
             src={donorProfile?.avatarImage}
@@ -49,6 +53,7 @@ export const DonorInfo = ({ donation }: any) => {
           {" "}
           <p>{donation.specialMessage}</p>
         </div>
+<<<<<<< HEAD
         <div className="h-[1px] w-[90%] mx-auto mb-2 mt-8 bg-[#e4e4e7]"></div>
         <div className="w-[100%]  h-12  rounded-b-2xl flex justify-between px-4 items-center ">
           <p className="text-[20px] font-bold  text-black">
@@ -56,6 +61,14 @@ export const DonorInfo = ({ donation }: any) => {
           </p>
           <div className="w-15 h-7 bg-black text-white rounded-md p-4 flex justify-center items-center">
             <p className="text-sm">View page</p>
+=======
+        <div className="w-[100%] bg-[#f9f9f9] h-12 mt-10 rounded-b-2xl flex justify-between px-4 items-center">
+          <p className="text-[28px] font-bold  text-[#4dcb47]">
+            USD {donation.amount}
+          </p>
+          <div className="w-17 h-8 bg-black text-white rounded-md p-2 flex justify-center items-center">
+            <p>View page</p>
+>>>>>>> main
           </div>
         </div>
       </div>
