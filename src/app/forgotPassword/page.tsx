@@ -86,10 +86,11 @@ export default function Home() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, newPassword }),
     });
-    if (res.ok) {
+    const data = await res.json();
+    if (data?.code == "PASSWORD_UPDATED_SUCCESSFULLY") {
       alert("Нууц үг амжилттай шинэчлэгдлээ!");
       setIsDialogOpen(false);
-    } else {
+    } else if (data?.error) {
       setPasswordError("Нууц үг шинэчлэхэд алдаа гарлаа.");
     }
   };
