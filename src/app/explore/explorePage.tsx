@@ -6,12 +6,17 @@ import { SquareArrowOutUpRight, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SkeletonCard } from "../_components/SkeletonCard";
-
+import { useCookies } from "next-client-cookies";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "jsonwebtoken";
 export default function Explore() {
   const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const cookies = useCookies();
+  const accessToken = cookies.get("accessToken") || "";
+  const { userId } = jwtDecode(accessToken) as JwtPayload & { userId: string };
 
   async function getFetchData() {
     try {
@@ -23,7 +28,10 @@ export default function Explore() {
         }
       );
       const result = await res.json();
-      setData(result);
+      const filteredData = result.filter(
+        (profile: any) => profile.userId !== userId
+      );
+      setData(filteredData);
       setFilteredData(result);
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <div className="w-1/4  flex flex-col items-center gap-3 ">
       <Link href={"/home"}>
-        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4 focus:bg-[#F4F4F5] gap-4">
+        <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4 focus:bg-[#F4F4F5] gap-4 active:bg-[#F4F4F5]">
           <Store />
           Home
         </div>
