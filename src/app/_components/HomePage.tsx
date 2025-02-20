@@ -31,11 +31,11 @@ export default function HomePage() {
   const [donations, setDonations] = useState<any>([]);
   const [totalDonation, setTotalDonation] = useState<any>();
   const totalEarnings = totalDonation?.totalEarnings;
-  // async function getFetchData() {
-  //   fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data));
-  // }
+  async function getFetchData() {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`)
+      .then((res) => res.json())
+      .then((data) => setData(data));
+  }
 
   async function getDonationData() {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/donation/${userId}`)
