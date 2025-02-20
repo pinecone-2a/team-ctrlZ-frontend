@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,8 +25,11 @@ export default function EditProfile() {
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [socialMedia, setSocialMedia] = useState("");
-    const cookies = useCookies();
+  const [profileData, setProfileData] = useState<any>();
+  const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
+  const defaultName = profileData?.name;
+  console.log(defaultName);
   const { userId } = decodeToken(accessToken) as JwtPayload & {
     userId: string;
   };
@@ -35,8 +38,8 @@ export default function EditProfile() {
     image: "",
     name: "",
     about: "",
-    socialMedia: ""
-  })
+    socialMedia: "",
+  });
 
   const [errors, setErrors] = useState({
     image: false,
@@ -44,7 +47,15 @@ export default function EditProfile() {
     about: false,
     socialMedia: false,
   });
-
+  async function getFetchData() {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${userId}`)
+      .then((res) => res.json())
+      .then((data) => setProfileData(data));
+  }
+  useEffect(() => {
+    getFetchData();
+  }, []);
+  console.log(profileData);
   const router = useRouter();
 
   const isValidName = (name: string) => /^[A-Z][a-zA-Z]*$/.test(name);
@@ -58,19 +69,17 @@ export default function EditProfile() {
     setErrors({ ...errors, [e.target.name]: false });
   };
 
-  const handleText = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setForm({ ...form, about: e.target.value });
     setErrors({ ...errors, about: false });
-  }
+  };
 
   const handleSocialMedia = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setForm({ ...form, socialMedia: e.target.value });
     setErrors({ ...errors, socialMedia: false });
-  }
+  };
 
   const handleImageUpload = async (file: File) => {
     setUploading(true);
@@ -119,14 +128,14 @@ export default function EditProfile() {
               image: form.image,
               name: form.name,
               about: form.about,
-              socialMedia: form.socialMedia
-            })
+              socialMedia: form.socialMedia,
+            }),
           }
-        )
+        );
         if (res.ok) {
           setTimeout(() => {
-            router.push("/home")
-          }, 2500)
+            router.push("/home");
+          }, 2500);
         } else {
           const errorText = await res.text();
           console.error("Failed to submit profile:", errorText);
@@ -134,7 +143,7 @@ export default function EditProfile() {
       } catch (error) {
         console.error("Error submitting profile:", error);
       }
-    };
+    }
   };
 
   return (
@@ -145,12 +154,17 @@ export default function EditProfile() {
         </p>
         <Card className="bg-white p-6 rounded-lg shadow-none w-[651px]">
           <CardHeader>
-            <CardTitle>Uptade your profile page</CardTitle>
+            <CardTitle>Update your profile page</CardTitle>
           </CardHeader>
           <CardContent>
             <p>Add photo</p>
             <label htmlFor="fileInput" className="cursor-pointer">
               <div
+                style={{
+                  backgroundImage: `url(${profileData?.avatarImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
                 className={`border-2 border-dashed rounded-full w-[160px] h-[160px] flex justify-center items-center overflow-hidden relative ${
                   errors.image ? "border-red-500" : "border-[#E4E4E7]"
                 }`}
@@ -188,7 +202,7 @@ export default function EditProfile() {
             <Input
               className={`mt-2 ${errors.name ? "border-red-500" : ""}`}
               placeholder="Enter your name here"
-              value={form.name}
+              value={form.name || profileData?.name || ""}
               onChange={handleChange}
             />
             {errors.name && (
@@ -205,6 +219,7 @@ export default function EditProfile() {
               placeholder="Write about yourself here"
               value={form.about}
               onChange={handleText}
+              defaultValue={profileData?.about}
             />
             {errors.about && (
               <p className="text-red-500 text-sm mt-2">
@@ -216,7 +231,7 @@ export default function EditProfile() {
             <Input
               className={`mt-2 ${errors.socialMedia ? "border-red-500" : ""}`}
               placeholder="Enter your social media link"
-              value={form.socialMedia}
+              value={form.socialMedia || profileData?.socialMediaURL || ""}
               onChange={handleSocialMedia}
             />
             {errors.socialMedia && (

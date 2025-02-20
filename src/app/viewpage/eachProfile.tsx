@@ -10,7 +10,9 @@ import { useCookies } from "next-client-cookies";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import { useParams } from "next/navigation";
-
+import { Toaster, toast } from "sonner";
+import Lottie from "lottie-react";
+import dotLoad from "./tsegLoad.json";
 import {
   Dialog,
   DialogContent,
@@ -34,6 +36,7 @@ export default function EachProfile() {
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [payButton, setPayButton] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -72,9 +75,9 @@ export default function EachProfile() {
         }
       );
       const response = await await res.json();
-      // if (response) {
-      //   setLoading(false);
-      // }
+      if (response) {
+        setLoading(false);
+      }
       console.log(response);
       return response;
     } catch (error) {
@@ -85,21 +88,22 @@ export default function EachProfile() {
 
   const handlePayment = async () => {
     setIsSubmitting(true);
-
+    const paymentResponse = await sendDonation();
     try {
-      const paymentResponse = await sendDonation();
       if (paymentResponse) {
-        setLoading(true); // Open the donation complete dialog
+        toast.success(`You donated to ${data.name} $${amount} successfully`);
       }
     } catch (error) {
-      console.error("Payment failed:", error);
+      toast.error("Donation failed");
     } finally {
       setIsSubmitting(false);
+      setIsDialogOpen(false);
     }
   };
 
   return (
     <div>
+      <Toaster richColors position="top-center" />
       <div
         style={{
           backgroundImage: `url(${data.backgroundImage})`,
@@ -186,15 +190,6 @@ export default function EachProfile() {
           </Card>
         </div>
       </div>
-      <Dialog open={loading} onOpenChange={setLoading}>
-        <DialogContent className="relative flex flex-col py-10">
-          <DialogHeader className="mt-4">
-            <DialogTitle className="flex gap-2 font-semibold justify-center mb-1">
-              Donation Complete
-            </DialogTitle>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="relative flex flex-col py-10">
           <div className="relative w-full flex justify-center">
@@ -220,15 +215,19 @@ export default function EachProfile() {
                     ${amount}
                   </div>
                 </div>
-                <div>
-                  <Button
-                    className="font-extrabold w-full mt-10"
-                    onClick={handlePayment}
-                    disabled={isSubmitting}
-                  >
-                    Pay
-                  </Button>
-                </div>
+                <Button
+                  className="font-extrabold w-full mt-10 flex items-center justify-center"
+                  onClick={handlePayment}
+                  disabled={payButton}
+                >
+                  {isSubmitting ? (
+                    <div style={{ width: "50px" }}>
+                      <Lottie animationData={dotLoad} />
+                    </div>
+                  ) : (
+                    "Support"
+                  )}
+                </Button>
                 <div className="flex flex-col items-center text-center mt-6 text-[10px] leading-3">
                   Payment secured by
                   <p className="font-bold font-mono">Chingis</p>

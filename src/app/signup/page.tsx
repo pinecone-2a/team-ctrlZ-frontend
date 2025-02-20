@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Coffee, Eye, EyeOff, Sliders } from "lucide-react";
+import { Toaster, toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -82,6 +83,8 @@ export default function MultiStepSignup() {
       console.log(errorMessage);
       if (response.ok) {
         setIsSubmitting(true);
+        console.log("Toast should appear now!");
+        toast.success("You successfully signed up!");
         setIsSubmitting(false);
         router.push("/profile");
       } else {
@@ -90,6 +93,7 @@ export default function MultiStepSignup() {
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Signed up failed try again");
       setIsSubmitting(false);
     }
   }
@@ -97,6 +101,7 @@ export default function MultiStepSignup() {
   return (
     <div className="font-[family-name:var(--font-inter)] flex">
       <div className="h-screen w-1/2 bg-[#FBBF24] items-center relative ">
+        <Toaster richColors position="top-center" />
         <div className="flex gap-2 absolute left-32 top-16  ">
           <Coffee size={30} />
           <p className="text-[#09090B] text-[21px] font-bold">Buy Me Coffee</p>
@@ -274,6 +279,7 @@ export default function MultiStepSignup() {
               >
                 Continue
               </Button>
+
               <Link href={"/login"}>
                 <Button className="absolute top-10 right-[160px] w-[83px] h-[45px] border bg-black rounded-md text-white text-sm">
                   Login
@@ -283,7 +289,6 @@ export default function MultiStepSignup() {
           </Form>
         </div>
       )}
-
       {isSubmitting && (
         <div className="fixed inset-0 flex justify-center items-center bg-white z-50">
           <Lottie

@@ -21,8 +21,10 @@ type Data = {
   socialMediaURL: string;
 };
 export default function HomePage() {
+  
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
+
   const { userId } = decodeToken(accessToken) as JwtPayload & {
     userId: string;
   };
@@ -60,14 +62,14 @@ export default function HomePage() {
   }, [userId]);
 
   return (
-    <div className="flex w-3/4">
-      <div className="">
+    <div className="ml-[180px]">
+      <div className="flex justify-center items-center flex-col w-[100%]">
         <Card data={data} totalEarning={totalEarnings} />
         <div>
           <div className="flex justify-between mt-5 items-center">
-            <p className="text-base font-semibold">Recent transactions</p>
+            <p className="text-2xl font-semibold">Recent transactions</p>
             <Select>
-              <SelectTrigger className="w-[150px] py-5 border border-[#E4E4E7]">
+              <SelectTrigger className="w-[150px] py-5 border-[#E4E4E7] rounded-full">
                 <SelectValue placeholder="Amount" />
               </SelectTrigger>
               <SelectContent>
@@ -78,8 +80,8 @@ export default function HomePage() {
               </SelectContent>
             </Select>
           </div>
-          <div className="w-[1450px] border border-[#E4E4E7] rounded-lg p-6 mt-3">
-            {donations?.map((donation: any) => (
+          <div className="w-[1000px]  flex flex-wrap gap-12">
+            {donations?.slice(0.6).map((donation: any) => (
               <DonorInfo key={donation.id} donation={donation} />
             ))}
           </div>

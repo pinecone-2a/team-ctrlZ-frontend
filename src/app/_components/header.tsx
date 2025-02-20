@@ -28,8 +28,9 @@ export default function Header() {
   const router = useRouter();
   let userId = "";
   try {
-    // const decoded = jwtDecode<{ userId: string }>(accessToken);
-    // userId = decoded.userId;
+    console.log(cookies);
+    const decoded = jwtDecode<{ userId: string }>(accessToken);
+    userId = decoded.userId;
   } catch (error) {
     console.error("Invalid token:", error);
   }
