@@ -34,6 +34,7 @@ export default function Sidebar() {
         <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] flex items-center pl-4 gap-4">
           <PanelsTopLeft />
           View page
+          </div>
         <div className="mr-5 w-[300px] h-[42px] rounded-md bg-[#FFFFFF] text-[#18181B] hover:bg-[#F4F4F5] gap-2 flex items-center pl-4">
           View page <SquareArrowOutUpRight className="w-[16px] h-[16px] opacity-60 items-center"/>
         </div>

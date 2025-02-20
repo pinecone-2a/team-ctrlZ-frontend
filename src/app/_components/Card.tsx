@@ -44,7 +44,7 @@ export default function Card({ data, totalEarning }: CardProps) {
       </div>
       <div className="bg-[#f4f4f4] w-[95%] h-[1px] mx-auto -mt-10"></div>
       <div className="ml-5 mb-4">
-        <div className="flex gap-6 items-center mb-2 ">
+      <div className="flex gap-6 items-center mb-2 ">
           <p className="text-2xl font-semibold">Earnings</p>
           <Select>
             <SelectTrigger className="w-[150px] rounded-full border">
