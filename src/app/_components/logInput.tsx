@@ -8,12 +8,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { use, useState } from "react";
+// import { cookies } from "next/headers";
+
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
+import { Toaster, toast } from "sonner";
+import { waitForDebugger } from "inspector";
+import { useCookies } from "next-client-cookies";
 import { Toaster, toast } from "sonner";
 
 export default function LogCard() {
@@ -25,6 +30,7 @@ export default function LogCard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<any>([]);
+  const cookies = useCookies();
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -54,6 +60,7 @@ export default function LogCard() {
   };
   const handleLogin = async () => {
     setLoading(true);
+    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
@@ -67,17 +74,17 @@ export default function LogCard() {
         }
       );
 
+
       const data = await response.json();
+      setLoading(false);
+      console.log(data);
       setLoading(false);
 
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
+        toast.error("Incorrect password. Please try again.");
         return;
       }
-
-      console.log("Response:", data.data);
-
-      const { profile, bankCard } = data.data;
 
       if (profile && bankCard) {
         router.push("/home");
@@ -150,7 +157,7 @@ export default function LogCard() {
         </form>
       </CardContent>
       <Link href={"/forgotPassword"}>
-        <p className="text-blue-700 flex justify-center font-bold text-[14px]">
+        <p className="text-black flex justify-center font-bold text-[14px]">
           Forgot password ?
         </p>
       </Link>

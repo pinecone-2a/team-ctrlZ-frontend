@@ -17,7 +17,7 @@ export const SkeletonCard: React.FC<SkeletonProps> = ({
         width,
         height,
         borderRadius,
-        backgroundColor: "#e0e0e0",
+        backgroundColor: "#e4e4e7",
         animation: "shimmer 1.5s infinite linear",
       }}
       className="skeleton"
