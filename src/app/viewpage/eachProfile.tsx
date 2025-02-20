@@ -13,9 +13,7 @@ import { useParams } from "next/navigation";
 import { Toaster, toast } from "sonner";
 import Lottie from "lottie-react";
 import dotLoad from "./tsegLoad.json";
-import { Toaster, toast } from "sonner";
-import Lottie from "lottie-react";
-import dotLoad from "./tsegLoad.json";
+
 import {
   Dialog,
   DialogContent,
@@ -39,7 +37,6 @@ export default function EachProfile() {
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [payButton, setPayButton] = useState(false);
   const [payButton, setPayButton] = useState(false);
 
   useEffect(() => {
@@ -82,9 +79,6 @@ export default function EachProfile() {
       if (response) {
         setLoading(false);
       }
-      if (response) {
-        setLoading(false);
-      }
       console.log(response);
       return response;
     } catch (error) {
@@ -95,18 +89,16 @@ export default function EachProfile() {
 
   const handlePayment = async () => {
     setIsSubmitting(true);
-    const paymentResponse = await sendDonation();    const paymentResponse = await sendDonation();
+
+    const paymentResponse = await sendDonation();
     try {
       if (paymentResponse) {
-        toast.success(`You donated to ${data.name} $${amount} successfully`);
         toast.success(`You donated to ${data.name} $${amount} successfully`);
       }
     } catch (error) {
       toast.error("Donation failed");
-      toast.error("Donation failed");
     } finally {
       setIsSubmitting(false);
-      setIsDialogOpen(false);
       setIsDialogOpen(false);
     }
   };

@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-import { Toaster, toast } from "sonner";
 import { waitForDebugger } from "inspector";
 import { useCookies } from "next-client-cookies";
 import { Toaster, toast } from "sonner";
@@ -60,7 +59,6 @@ export default function LogCard() {
   };
   const handleLogin = async () => {
     setLoading(true);
-    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
@@ -74,10 +72,7 @@ export default function LogCard() {
         }
       );
 
-
       const data = await response.json();
-      setLoading(false);
-      console.log(data);
       setLoading(false);
 
       if (data.code === "Incorrect Password") {
@@ -85,13 +80,12 @@ export default function LogCard() {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-
-      if (profile && bankCard) {
+      if (data.profile && data.bankCard) {
         router.push("/home");
-      } else if (!profile) {
+      } else if (!data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!bankCard) {
+      } else if (!data.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
@@ -111,7 +105,9 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
-            <label className="text-sm" htmlFor="email">Email</label>
+            <label className="text-sm" htmlFor="email">
+              Email
+            </label>
             <Input
               id="email"
               className="mt-2"
@@ -123,7 +119,9 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
-            <label className="text-sm" htmlFor="password">Password</label>
+            <label className="text-sm" htmlFor="password">
+              Password
+            </label>
             <Input
               id="password"
               className="mt-2"
