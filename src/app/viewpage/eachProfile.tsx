@@ -102,7 +102,7 @@ export default function EachProfile() {
   };
 
   return (
-    <div>
+    <div className="mt-10">
       <Toaster richColors position="top-center" />
       <div
         style={{
