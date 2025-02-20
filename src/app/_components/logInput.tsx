@@ -81,6 +81,8 @@ export default function LogCard() {
         return;
       }
       cookies.set("accessToken", data.result);
+      cookies.set("refreshToken", data.refreshToken);
+
       const { profile, bankCard } = data.data;
 
       if (profile && bankCard) {
