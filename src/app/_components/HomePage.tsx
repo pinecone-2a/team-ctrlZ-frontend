@@ -61,7 +61,7 @@ export default function HomePage() {
     }
   }, [userId]);
 
-  const TransactionsComponent = () => {
+  const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [selectedAmount, setSelectedAmount] = useState('one dollar');
     const [userId, setUserId] = useState('1'); // Assuming user_id is 1 for example
