@@ -6,7 +6,7 @@ import SuccessMess from "./successMess";
 import Sidebar from "../_components/sidebar";
 import Header from "../_components/header";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { Toaster } from "sonner";
 const fadeScaleVariants = {
   initial: { opacity: 0 },
   animate: { opacity: 1, transition: { duration: 0.5 } },
@@ -20,6 +20,7 @@ export default function AccountSettings() {
       <div className="flex mt-20">
         <Sidebar />
         <div className="flex flex-col items-center gap-6 p-10">
+          <Toaster richColors position="top-center" />
           <AnimatePresence>
             <motion.div
               key="profile"

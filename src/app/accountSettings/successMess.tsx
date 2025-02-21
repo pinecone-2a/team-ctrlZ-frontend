@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 export default function SuccessMess() {
@@ -17,10 +18,10 @@ export default function SuccessMess() {
         </CardHeader>
         <CardContent>
           Confirmation message
-          <Input
+          <Textarea
             className="h-[100px] text-start"
             placeholder="Edit your message for your fans"
-          ></Input>
+          ></Textarea>
         </CardContent>
         <CardFooter>
           <Button className="w-full">Save changes</Button>

@@ -1,14 +1,12 @@
 "use client";
 
 import Login from "./_components/login";
-import CreateProfile from "./profile/CreateProfile";
-
-import Image from "next/image";
+import FirstPage from "./_components/firstPage";
 
 export default function Home() {
   return (
     <div>
-      <Login />
+      <FirstPage />
     </div>
   );
 }

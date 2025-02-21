@@ -8,6 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Copy } from "lucide-react";
+import { useState } from "react";
+
 type CardProps = {
   data:
     | {

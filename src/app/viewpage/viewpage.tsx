@@ -133,7 +133,7 @@ export default function VPmain() {
         </div>
       </Label>
 
-      <div className="flex justify-center gap-16 absolute  top-[500px] left-[400px]">
+      <div className="flex justify-center gap-16 absolute  top-[500px] left-[800px]">
         <div className="flex flex-col gap-6">
           <Card className="w-[623px] h-[233px] p-6">
             <div className="flex justify-between">
@@ -164,52 +164,6 @@ export default function VPmain() {
                 Be the first one to support {data.name || "this creator"}
               </p>
             </Card>
-          </Card>
-        </div>
-
-        <div>
-          <Card className="w-[628px] h-[509px] p-6">
-            <h2 className="text-xl font-bold">
-              Buy {data.name || "this creator"} a Coffee
-            </h2>
-            <p className="mt-2 text-gray-600">Select amount:</p>
-            <div className="flex gap-2 mt-2">
-              {amounts.map((value) => (
-                <Button
-                  key={value}
-                  onClick={() => setAmount(value)}
-                  variant={amount === value ? "default" : "outline"}
-                  className="gap-2"
-                >
-                  <Coffee /> ${value}
-                </Button>
-              ))}
-            </div>
-            <div className="mt-4">
-              <label className="font-medium text-[14px]">
-                Enter BuyMeCoffee or social account URL:
-              </label>
-              <Input
-                placeholder="buymeacoffee.com/"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="mt-1"
-              />
-            </div>
-            <div className="mt-4">
-              <label className="font-medium text-[14px]">
-                Special message:
-              </label>
-              <Textarea
-                placeholder="Please write your message here"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="mt-1 w-[580px] h-[131px]"
-              />
-            </div>
-            <Button className="mt-4 w-full" disabled={!url.trim()}>
-              Support
-            </Button>
           </Card>
         </div>
       </div>
