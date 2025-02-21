@@ -69,20 +69,21 @@ export default function LogCard() {
       );
 
       const data = await response.json();
-      cookies.set("accessToken", data.result);
-      cookies.set("refreshToken", data.refreshToken);
+      const {accessToken,refreshToken} = data
+      cookies.set("accessToken",accessToken );
+      cookies.set("refreshToken", refreshToken);
       setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
       console.log(data)
-      if (data.data.profile && data.data.bankCard) {
+      if (data.user.profile && data.user.bankCard) {
         router.push("/home");
-      } else if (!data.data.profile) {
+      } else if (!data.user.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!data.data.bankCard) {
+      } else if (!data.user.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
