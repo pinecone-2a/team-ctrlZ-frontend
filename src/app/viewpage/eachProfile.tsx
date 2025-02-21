@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 import { Toaster, toast } from "sonner";
 import Lottie from "lottie-react";
 import dotLoad from "./tsegLoad.json";
+
 import {
   Dialog,
   DialogContent,
@@ -88,6 +89,7 @@ export default function EachProfile() {
 
   const handlePayment = async () => {
     setIsSubmitting(true);
+
     const paymentResponse = await sendDonation();
     try {
       if (paymentResponse) {
@@ -102,7 +104,7 @@ export default function EachProfile() {
   };
 
   return (
-    <div className="mt-10">
+    <div>
       <Toaster richColors position="top-center" />
       <div
         style={{
@@ -215,6 +217,19 @@ export default function EachProfile() {
                     ${amount}
                   </div>
                 </div>
+                <Button
+                  className="font-extrabold w-full mt-10 flex items-center justify-center"
+                  onClick={handlePayment}
+                  disabled={payButton}
+                >
+                  {isSubmitting ? (
+                    <div style={{ width: "50px" }}>
+                      <Lottie animationData={dotLoad} />
+                    </div>
+                  ) : (
+                    "Support"
+                  )}
+                </Button>
                 <Button
                   className="font-extrabold w-full mt-10 flex items-center justify-center"
                   onClick={handlePayment}

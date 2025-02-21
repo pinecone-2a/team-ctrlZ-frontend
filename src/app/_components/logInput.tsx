@@ -8,17 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { use, useState } from "react";
-// import { cookies } from "next/headers";
-
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-import { Toaster, toast } from "sonner";
-import { waitForDebugger } from "inspector";
 import { useCookies } from "next-client-cookies";
+import { toast } from "sonner";
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -71,26 +67,26 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
-
       const data = await response.json();
-      setLoading(false);
       console.log(data);
+      const refreshToken = data.result.refreshToken;
+      const accessToken = data.result.accessToken;
 
+      cookies.set("accessToken", accessToken);
+      cookies.set("refreshToken", refreshToken);
+      setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-      cookies.set("accessToken", data.result);
-      cookies.set("refreshToken", data.refreshToken);
+      console.log();
 
-      const { profile, bankCard } = data.data;
-
-      if (profile && bankCard) {
+      if (data.data.profile && data.data.bankCard) {
         router.push("/home");
-      } else if (!profile) {
+      } else if (!data.data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!bankCard) {
+      } else if (!data.data.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
@@ -110,9 +106,12 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
-            <label htmlFor="email">Email</label>
+            <label className="text-sm" htmlFor="email">
+              Email
+            </label>
             <Input
               id="email"
+              className="mt-2"
               type="email"
               placeholder="Enter email here"
               value={email}
@@ -121,9 +120,12 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
-            <label htmlFor="password">Password</label>
+            <label className="text-sm" htmlFor="password">
+              Password
+            </label>
             <Input
               id="password"
+              className="mt-2"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password here"
               value={password}
@@ -134,7 +136,7 @@ export default function LogCard() {
             )}
             {data.code && <p className="text-red-500 text-sm">{data.code}</p>}
             <p
-              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
+              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-[40px] left-[330px] cursor-pointer"
               onMouseDown={handleClick}
             >
               {showPassword ? <Eye /> : <EyeOff />}
@@ -154,7 +156,7 @@ export default function LogCard() {
         </form>
       </CardContent>
       <Link href={"/forgotPassword"}>
-        <p className="text-blue-700 flex justify-center font-bold text-[14px]">
+        <p className="text-black flex justify-center font-bold text-[14px]">
           Forgot password ?
         </p>
       </Link>

@@ -8,7 +8,12 @@ import Link from "next/link";
 import { SkeletonCard } from "../_components/SkeletonCard";
 import { useCookies } from "next-client-cookies";
 import { jwtDecode } from "jwt-decode";
+<<<<<<< HEAD
 import { JwtPayload } from "jsonwebtoken";
+=======
+import { JwtPayload } from "jsonwebtoken";import { ScrollArea } from "@/components/ui/scroll-area"
+
+>>>>>>> main
 export default function Explore() {
   const [data, setData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -108,7 +113,7 @@ export default function Explore() {
                       <h1 className="font-semibold text-[16px]">
                         About {profile.name}
                       </h1>
-                      <p className="text-sm mt-4 w-[420px]">{profile.about}</p>
+                      <ScrollArea className="text-sm h-[100px] mt-4 w-[420px]">{profile.about}</ScrollArea>
                     </div>
                     <div className="flex flex-col">
                       <h1 className="font-semibold text-[16px]">
