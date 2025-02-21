@@ -67,23 +67,26 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
-
       const data = await response.json();
-      const {accessToken,refreshToken} = data
-      cookies.set("accessToken",accessToken );
+      console.log(data);
+      const refreshToken = data.result.refreshToken;
+      const accessToken = data.result.accessToken;
+
+      cookies.set("accessToken", accessToken);
       cookies.set("refreshToken", refreshToken);
       setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-      console.log(data)
-      if (data.user.profile && data.user.bankCard) {
+      console.log();
+
+      if (data.data.profile && data.data.bankCard) {
         router.push("/home");
-      } else if (!data.user.profile) {
+      } else if (!data.data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!data.user.bankCard) {
+      } else if (!data.data.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
