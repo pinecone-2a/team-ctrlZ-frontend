@@ -19,7 +19,7 @@ import LoadingModal from "./loadingModal";
 import { Toaster, toast } from "sonner";
 import { waitForDebugger } from "inspector";
 import { useCookies } from "next-client-cookies";
-import { Toaster, toast } from "sonner";
+
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);

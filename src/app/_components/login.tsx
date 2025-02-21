@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <div className="flex items-center min-h-screen ">
       <Toaster richColors position="top-center" />
-      <div className="h-screen w-1/2 bg-[#FBBF24] items-center relative ">
+      <div className="h-screen w-1/2 bg-[#FBBF24] items-center rounded-tr-3xl rounded-br-3xl relative ">
         <div className="flex gap-2 absolute left-32 top-16  ">
           <Coffee size={30} />
           <p className="text-[#09090B] text-[21px] font-bold">Buy Me Coffee</p>

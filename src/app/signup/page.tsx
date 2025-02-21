@@ -19,10 +19,15 @@ import Lottie from "lottie-react";
 import coffee from "../coffee.json";
 import Link from "next/link";
 import { useCookies } from "next-client-cookies";
+import { motion } from "framer-motion";
 const stepOneSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
 });
-
+const fadeScaleVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, transition: { duration: 0.5 } },
+};
 const stepTwoSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z
@@ -103,16 +108,22 @@ export default function MultiStepSignup() {
   }
 
   return (
-    <div className="font-[family-name:var(--font-inter)] flex">
-      <div className="h-screen w-1/2 bg-[#FBBF24] items-center relative ">
+    <motion.div
+      className="font-[family-name:var(--font-inter)] flex"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={fadeScaleVariants} 
+    >
+      <div className="h-screen w-1/2 bg-[#FBBF24] items-center rounded-br-3xl rounded-tr-3xl relative ">
         <Toaster richColors position="top-center" />
-        <div className="flex gap-2 absolute left-32 top-16  ">
+        <div className="flex gap-2 absolute left-32 top-16">
           <Coffee size={30} />
           <p className="text-[#09090B] text-[21px] font-bold">Buy Me Coffee</p>
         </div>
         <div className="h-[70%] rounded-full flex flex-col items-center justify-center mt-32 gap-5">
           <div className="bg-[#D9770680] rounded-full h-[300px] w-[300px] flex items-center justify-center">
-            <svg
+          <svg
               width="301"
               height="300"
               viewBox="0 0 241 240"
@@ -170,8 +181,7 @@ export default function MultiStepSignup() {
             Fund your creative work
           </p>
           <p className="text-[18px] font-normal text-[#09090B] max-w-[450px] text-center">
-            Accept support. Start a membership. Setup a shop. It's easier than
-            you think.
+            Accept support. Start a membership. Setup a shop. It's easier than you think.
           </p>
         </div>
       </div>
@@ -250,7 +260,7 @@ export default function MultiStepSignup() {
                   {errorMessage}
                 </FormMessage>
               </FormItem>
-
+  
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
@@ -272,7 +282,7 @@ export default function MultiStepSignup() {
                   {formStepTwo.formState.errors.password?.message}
                 </FormMessage>
               </FormItem>
-
+  
               <Button
                 type="submit"
                 className={`w-[366px] py-2 rounded-md text-white border-none ${
@@ -283,7 +293,7 @@ export default function MultiStepSignup() {
               >
                 Continue
               </Button>
-
+  
               <Link href={"/login"}>
                 <Button className="absolute top-10 right-[160px] w-[83px] h-[45px] border bg-black rounded-md text-white text-sm">
                   Login
@@ -302,6 +312,6 @@ export default function MultiStepSignup() {
           />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
