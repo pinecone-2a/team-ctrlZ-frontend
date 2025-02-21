@@ -17,13 +17,14 @@ import { jwtDecode } from "jwt-decode";
 import { useCookies } from "next-client-cookies";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { decodeToken } from "@/middleware";
 export default function CreateProfile() {
   interface CustomJwtPayload extends jwt.JwtPayload {
     userId: string;
   }
   const cookies = useCookies();
   const accessToken = cookies.get("accessToken") || "";
-  const { userId } = jwtDecode(accessToken) as JwtPayload & {
+  const { userId } = decodeToken(accessToken) as JwtPayload & {
     userId: string;
   };
   const [image, setImage] = useState<string | null>(null);

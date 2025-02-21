@@ -76,12 +76,13 @@ export default function LogCard() {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-      if (data.profile && data.bankCard) {
+      console.log(data)
+      if (data.data.profile && data.data.bankCard) {
         router.push("/home");
-      } else if (!data.profile) {
+      } else if (!data.data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!data.bankCard) {
+      } else if (!data.data.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
