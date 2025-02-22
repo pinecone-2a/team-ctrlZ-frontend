@@ -67,16 +67,20 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
-
       const data = await response.json();
-      cookies.set("accessToken", data.result);
-      cookies.set("refreshToken", data.refreshToken);
+      console.log(data);
+      const refreshToken = data.result.refreshToken;
+      const accessToken = data.result.accessToken;
+
+      cookies.set("accessToken", accessToken);
+      cookies.set("refreshToken", refreshToken);
       setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
-      console.log(data)
+      console.log();
+
       if (data.data.profile && data.data.bankCard) {
         router.push("/home");
       } else if (!data.data.profile) {
