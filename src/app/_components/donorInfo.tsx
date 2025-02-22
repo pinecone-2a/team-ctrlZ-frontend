@@ -55,11 +55,7 @@ export const DonorInfo = ({ donation }: Props) => {
       </div>
       <div className="h-[1px] w-[90%] mx-auto mb-1 mt-8 bg-[#e4e4e7]"></div>
       <div className="w-full h-12 rounded-b-2xl flex justify-between px-4 items-center">
-<<<<<<< HEAD
         <p className="text-[25px] font-bold text-green-500">
-=======
-        <p className="text-[20px] font-bold text-green-500">
->>>>>>> main
           ${donation?.amount}
         </p>
         <Link href={`/viewpage/${donorProfile?.name}`}>
