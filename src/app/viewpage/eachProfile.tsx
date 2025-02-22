@@ -112,10 +112,10 @@ export default function EachProfile() {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="w-full bg-[#F4F4F5] h-[450px] flex justify-center items-center absolute"
+        className="w-full bg-[#F4F4F5] h-[600px] flex justify-center items-center absolute mt-6"
       ></div>
 
-      <div className="flex justify-center gap-16 relative top-[350px]">
+      <div className="flex justify-center gap-16 relative top-[500px]">
         <div className="flex flex-col gap-6">
           <Card className="w-[623px] h-[233px] p-6">
             <div className="flex justify-between">
