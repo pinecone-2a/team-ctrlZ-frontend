@@ -14,7 +14,7 @@ import { useCookies } from "next-client-cookies";
 import { decodeToken } from "@/middleware";
 import { JwtPayload } from "jwt-decode";
 import Lottie from "lottie-react";
-import loading from "./loading.json";
+import loadingDino from "../profile/loadingDino.json";
 import { Toaster, toast } from "sonner";
 export default function EditProfile() {
   const [profileData, setProfileData] = useState<any>(null);
@@ -41,7 +41,6 @@ export default function EditProfile() {
     socialMedia: false,
   });
 
-  // Fetch existing profile data
   useEffect(() => {
     async function fetchProfile() {
       const res = await fetch(
@@ -152,7 +151,7 @@ export default function EditProfile() {
               }}
               className="border-2 border-dashed rounded-full w-[160px] h-[160px] flex justify-center items-center overflow-hidden relative"
             >
-              {uploading ? <Lottie animationData={loading} /> : <Camera />}
+              {uploading ? <Lottie animationData={loadingDino} /> : <Camera />}
             </div>
           </label>
           <Input
