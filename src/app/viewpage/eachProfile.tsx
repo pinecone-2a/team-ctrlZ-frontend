@@ -13,9 +13,6 @@ import { useParams } from "next/navigation";
 import { Toaster, toast } from "sonner";
 import Lottie from "lottie-react";
 import dotLoad from "./tsegLoad.json";
-import { Toaster, toast } from "sonner";
-import Lottie from "lottie-react";
-import dotLoad from "./tsegLoad.json";
 
 import {
   Dialog,
@@ -40,7 +37,6 @@ export default function EachProfile() {
   const [message, setMessage] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [payButton, setPayButton] = useState(false);
   const [payButton, setPayButton] = useState(false);
 
   useEffect(() => {
