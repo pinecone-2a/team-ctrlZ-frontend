@@ -16,6 +16,7 @@ import dotLoad from "./tsegLoad.json";
 import { Toaster, toast } from "sonner";
 import Lottie from "lottie-react";
 import dotLoad from "./tsegLoad.json";
+
 import {
   Dialog,
   DialogContent,
@@ -95,7 +96,9 @@ export default function EachProfile() {
 
   const handlePayment = async () => {
     setIsSubmitting(true);
-    const paymentResponse = await sendDonation();    const paymentResponse = await sendDonation();
+
+    const paymentResponse = await sendDonation();
+
     try {
       if (paymentResponse) {
         toast.success(`You donated to ${data.name} $${amount} successfully`);
@@ -120,10 +123,10 @@ export default function EachProfile() {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="w-full bg-[#F4F4F5] h-[450px] flex justify-center items-center absolute"
+        className="w-full bg-[#F4F4F5] h-[600px] flex justify-center items-center absolute mt-6"
       ></div>
 
-      <div className="flex justify-center gap-16 relative top-[350px]">
+      <div className="flex justify-center gap-16 relative top-[500px]">
         <div className="flex flex-col gap-6">
           <Card className="w-[623px] h-[233px] p-6">
             <div className="flex justify-between">
@@ -225,6 +228,7 @@ export default function EachProfile() {
                     ${amount}
                   </div>
                 </div>
+
                 <Button
                   className="font-extrabold w-full mt-10 flex items-center justify-center"
                   onClick={handlePayment}
@@ -253,7 +257,7 @@ export default function EachProfile() {
                 </Button>
                 <div className="flex flex-col items-center text-center mt-6 text-[10px] leading-3">
                   Payment secured by
-                  <p className="font-bold font-mono">Chingis</p>
+                  <p className="font-bold font-mono">Team-crtlZ</p>
                   You’ll be taken to a thank you page after the payment. Terms
                   and Privacy.
                 </div>

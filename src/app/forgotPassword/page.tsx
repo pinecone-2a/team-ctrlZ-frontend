@@ -28,7 +28,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Coffee } from "lucide-react";
+import { toast, Toaster } from "sonner";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import Lottie from "lottie-react";
+import pacman from "../../pacman.json";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -40,63 +44,88 @@ export default function Home() {
   const [passwordError, setPasswordError] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validateOTP = (otp: string) => /^\d{6}$/.test(otp);
 
   const sendOTP = async () => {
-    const res = await fetch("http://localhost:4000/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
     if (res.ok) {
-      alert("OTP код илгээгдлээ.");
+      toast.success("OTP код илгээгдлээ.");
       setIsDialogOpen(true);
     } else {
-      setEmailError("Имэйл илгээхэд алдаа гарлаа.");
+      toast.error("Имэйл илгээхэд алдаа гарлаа.");
     }
   };
 
   const verifyOTP = async () => {
     if (!validateOTP(OTP)) {
-      setOtpError("6 оронтой зөв OTP код оруулна уу.");
+      toast.error("6 оронтой зөв OTP код оруулна уу.");
       return;
     }
     setOtpError("");
-    const res = await fetch("http://localhost:4000/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userOtp: OTP, email }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userOtp: OTP, email }),
+      }
+    );
     const data = await res.json();
     if (res.ok && data.success) {
       setIsOtpVerified(true);
+      toast.success("OTP баталгаажлаа.");
     } else {
       setOtpError(data.message || "Буруу OTP, дахин оролдоно уу.");
+      toast.error("Буруу OTP, дахин оролдоно уу.");
     }
   };
 
   const resetPassword = async () => {
     if (newPassword !== confirmPassword) {
-      setPasswordError("Нууц үг таарахгүй байна.");
+      toast.error("Нууц үг таарахгүй байна.");
       return;
     }
-    const res = await fetch("http://localhost:4000/auth/reset-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, newPassword }),
-    });
+
+    if (!newPassword || !confirmPassword) {
+      toast.error("Нууц үг эсвэл баталгаажуулалт хоосон байна.");
+      return;
+    }
+
+    setLoading(true);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, newPassword }),
+      }
+    );
     const data = await res.json();
-    if (data?.code == "PASSWORD_UPDATED_SUCCESSFULLY") {
-      alert("Нууц үг амжилттай шинэчлэгдлээ!");
+    setLoading(false);
+
+    if (data?.code === "PASSWORD_UPDATED_SUCCESSFULLY") {
+      toast.success("Нууц үг амжилттай шинэчлэгдлээ!");
       setIsDialogOpen(false);
     } else if (data?.error) {
-      setPasswordError("Нууц үг шинэчлэхэд алдаа гарлаа.");
+      toast.error("Нууц үг шинэчлэхэд алдаа гарлаа.");
     }
   };
 
+  const handleClick = () => setShowPassword(!showPassword);
+
   return (
     <div className="bg-white">
+      <Toaster richColors position="top-center" />
       <div className="w-2/2 bg-[#FBBF24] pt-4 h-16">
         <div>
           <Link href={"/login"}>
@@ -181,8 +210,21 @@ export default function Home() {
                         <p className="text-red-500 text-sm">{otpError}</p>
                       )}
                       <DialogFooter>
-                        <Button className="w-full" onClick={verifyOTP}>
-                          Баталгаажуулах
+                        <Button
+                          className="w-full flex justify-center items-center"
+                          onClick={verifyOTP}
+                          disabled={loading}
+                        >
+                          {loading ? (
+                            <Lottie
+                              animationData={pacman}
+                              loop
+                              autoplay
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            "Баталгаажуулах"
+                          )}
                         </Button>
                       </DialogFooter>
                     </>
@@ -192,23 +234,35 @@ export default function Home() {
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="new-password">Шинэ нууц үг</Label>
                           <Input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="new-password"
                             placeholder="********"
                             onChange={(e) => setNewPassword(e.target.value)}
                           />
+                          <span
+                            className="absolute top-[105px] opacity-30  right-8 cursor-pointer  "
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Eye /> : <EyeOff />}
+                          </span>
                         </div>
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="confirm-password">
                             Нууц үгээ давтана уу
                           </Label>
                           <Input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="confirm-password"
                             placeholder="********"
                             onChange={(e) => setConfirmPassword(e.target.value)}
                           />
                         </div>
+                        <span
+                          className="absolute top-[182px]  opacity-30 right-8 cursor-pointer  "
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Eye /> : <EyeOff />}
+                        </span>
                         {passwordError && (
                           <p className="text-red-500 text-sm">
                             {passwordError}
@@ -216,8 +270,21 @@ export default function Home() {
                         )}
                       </div>
                       <DialogFooter>
-                        <Button className="w-full" onClick={resetPassword}>
-                          Нууц үг шинэчлэх
+                        <Button
+                          className="w-full"
+                          onClick={resetPassword}
+                          disabled={loading}
+                        >
+                          {loading ? (
+                            <Lottie
+                              animationData={pacman}
+                              loop
+                              autoplay
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            "Нууц үг шинэчлэх"
+                          )}
                         </Button>
                       </DialogFooter>
                     </>
@@ -226,6 +293,13 @@ export default function Home() {
               </Dialog>
             </div>
           </CardFooter>
+          <div className="flex justify-center items-center mb-10">
+            <Link href={"/login"}>
+              <button className="w-[300px] hover:bg-stone-900 hover:text-white border rounded-md h-9">
+                Нүүр хуудас руу буцах
+              </button>
+            </Link>
+          </div>
         </Card>
       </div>
     </div>

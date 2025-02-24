@@ -61,7 +61,9 @@ export default function FirstPage() {
     <CardContent>
         <img className="w-[60px] h-[60px] object-center object-cover rounded-full mt-3 mx-auto" src="amga.jpg"/>   
         <p className="font-[600] mt-3 w-[150px] text-[12px] flex justify-center text-center">Amga is helping people have better conversations about politics</p>
-        <div className="flex justify-center items-center  gap-1 text-sm ">
+
+        <div className="flex justify-center items-center mt-2 gap-1 text-sm ">
+
             <Heart className="w-[20px] h-[20px]"/>
             9,332 supporters
         </div>

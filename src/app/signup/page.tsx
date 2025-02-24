@@ -86,7 +86,7 @@ export default function MultiStepSignup() {
       );
       const data = await response.json();
       cookies.set("accessToken", data.result);
-      cookies.set("refreshToken", data.refreshToken);
+      cookies.set("refreshToken", data.result);
 
       setErrorMessage(data.message);
       console.log(errorMessage);

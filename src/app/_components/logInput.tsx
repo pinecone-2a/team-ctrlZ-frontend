@@ -8,17 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { use, useState } from "react";
-// import { cookies } from "next/headers";
-
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-import { Toaster, toast } from "sonner";
-import { waitForDebugger } from "inspector";
 import { useCookies } from "next-client-cookies";
+import { toast } from "sonner";
 
 
 export default function LogCard() {
@@ -74,24 +70,28 @@ export default function LogCard() {
         }
       );
 
-
       const data = await response.json();
-      setLoading(false);
       console.log(data);
-      setLoading(false);
 
+      const refreshToken = data.result.refreshToken;
+      const accessToken = data.result.accessToken;
+
+
+      cookies.set("accessToken", accessToken);
+      cookies.set("refreshToken", refreshToken);
+      setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         toast.error("Incorrect password. Please try again.");
         return;
       }
 
-      if (profile && bankCard) {
+      if (data.data.profile && data.data.bankCard) {
         router.push("/home");
-      } else if (!profile) {
+      } else if (!data.data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
-      } else if (!bankCard) {
+      } else if (!data.data.bankCard) {
         toast.success("Please add your payment details.");
         router.push("/profile/payment");
       }
@@ -111,7 +111,11 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
-            <label className="text-sm" htmlFor="email">Email</label>
+
+            <label className="text-sm" htmlFor="email">
+              Email
+            </label>
+
             <Input
               id="email"
               className="mt-2"
@@ -123,7 +127,11 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
-            <label className="text-sm" htmlFor="password">Password</label>
+
+            <label className="text-sm" htmlFor="password">
+              Password
+            </label>
+
             <Input
               id="password"
               className="mt-2"
