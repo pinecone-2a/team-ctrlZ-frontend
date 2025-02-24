@@ -217,19 +217,7 @@ export default function EachProfile() {
                     ${amount}
                   </div>
                 </div>
-                <Button
-                  className="font-extrabold w-full mt-10 flex items-center justify-center"
-                  onClick={handlePayment}
-                  disabled={payButton}
-                >
-                  {isSubmitting ? (
-                    <div style={{ width: "50px" }}>
-                      <Lottie animationData={dotLoad} />
-                    </div>
-                  ) : (
-                    "Support"
-                  )}
-                </Button>
+
                 <Button
                   className="font-extrabold w-full mt-10 flex items-center justify-center"
                   onClick={handlePayment}
@@ -245,7 +233,7 @@ export default function EachProfile() {
                 </Button>
                 <div className="flex flex-col items-center text-center mt-6 text-[10px] leading-3">
                   Payment secured by
-                  <p className="font-bold font-mono">Chingis</p>
+                  <p className="font-bold font-mono">Team-crtlZ</p>
                   You’ll be taken to a thank you page after the payment. Terms
                   and Privacy.
                 </div>
