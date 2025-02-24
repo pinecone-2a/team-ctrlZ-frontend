@@ -53,7 +53,6 @@ export default function LogCard() {
     if (!valid) return;
   };
   const handleLogin = async () => {
-    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
@@ -80,12 +79,15 @@ export default function LogCard() {
       const { profile, bankCard } = data.data;
 
       if (profile && bankCard) {
+        setLoading(true);
         router.push("/home");
       } else if (!profile) {
         toast.success("You need to complete your profile.");
+        setLoading(true);
         router.push("/profile");
       } else if (!bankCard) {
         toast.success("Please add your payment details.");
+        setLoading(true);
         router.push("/profile/payment");
       }
     } catch (e) {
