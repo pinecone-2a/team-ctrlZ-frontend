@@ -16,6 +16,7 @@ import LoadingModal from "./loadingModal";
 import { useCookies } from "next-client-cookies";
 import { toast } from "sonner";
 
+
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -55,6 +56,7 @@ export default function LogCard() {
   };
   const handleLogin = async () => {
     setLoading(true);
+    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
@@ -67,19 +69,22 @@ export default function LogCard() {
           body: JSON.stringify({ email, password }),
         }
       );
+
       const data = await response.json();
       console.log(data);
+
       const refreshToken = data.result.refreshToken;
       const accessToken = data.result.accessToken;
+
 
       cookies.set("accessToken", accessToken);
       cookies.set("refreshToken", refreshToken);
       setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
+        toast.error("Incorrect password. Please try again.");
         return;
       }
-      console.log();
 
       if (data.data.profile && data.data.bankCard) {
         router.push("/home");
@@ -106,9 +111,11 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
+
             <label className="text-sm" htmlFor="email">
               Email
             </label>
+
             <Input
               id="email"
               className="mt-2"
@@ -120,9 +127,11 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
+
             <label className="text-sm" htmlFor="password">
               Password
             </label>
+
             <Input
               id="password"
               className="mt-2"
