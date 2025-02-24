@@ -8,7 +8,8 @@ import Link from "next/link";
 import { SkeletonCard } from "../_components/SkeletonCard";
 import { useCookies } from "next-client-cookies";
 import { jwtDecode } from "jwt-decode";
-import { JwtPayload } from "jsonwebtoken";import { ScrollArea } from "@/components/ui/scroll-area"
+import { JwtPayload } from "jsonwebtoken";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Explore() {
   const [data, setData] = useState<any[]>([]);
@@ -109,7 +110,9 @@ export default function Explore() {
                       <h1 className="font-semibold text-[16px]">
                         About {profile.name}
                       </h1>
-                      <ScrollArea className="text-sm h-[100px] mt-4 w-[420px]">{profile.about}</ScrollArea>
+                      <ScrollArea className="text-sm h-[100px] mt-4 w-[420px]">
+                        {profile.about}
+                      </ScrollArea>
                     </div>
                     <div className="flex flex-col">
                       <h1 className="font-semibold text-[16px]">
