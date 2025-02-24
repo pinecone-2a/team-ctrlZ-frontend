@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,7 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import {
   Card,
   CardContent,
@@ -21,105 +27,134 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import Header from "@/app/profile/Header";
 import { Coffee } from "lucide-react";
+import { toast, Toaster } from "sonner";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import Lottie from "lottie-react";
+import pacman from "../../pacman.json";
 
 export default function Home() {
-  const [newUser, setNewUser] = useState("");
+  const [email, setEmail] = useState("");
   const [OTP, setOTP] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [otpError, setOtpError] = useState("");
-  const [responseMessage, setResponseMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Email Validation Function
-  // const validateEmail = (email: string) => {
-  //   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  //   return emailPattern.test(email);
-  // };
+  const validateOTP = (otp: string) => /^\d{6}$/.test(otp);
 
-  const validateOTP = (otp: string) => {
-    return /^\d{6}$/.test(otp);
-  };
-
-  const addUser = async () => {
-    // if (!validateEmail(newUser)) {
-    //   alert("Please enter a valid email address.");
-    //   return;
-    // } else {
-    //   setEmailError(""); // Clear the error if email is valid
-    // }
-
-    const res = await fetch("http://localhost:4000/auth/update", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: newUser }),
-    });
-
+  const sendOTP = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      }
+    );
     if (res.ok) {
-      alert("Sent OTP");
+      toast.success("OTP код илгээгдлээ.");
       setIsDialogOpen(true);
     } else {
-      alert("Failed to add user. Please try again.");
+      toast.error("Имэйл илгээхэд алдаа гарлаа.");
     }
   };
 
   const verifyOTP = async () => {
     if (!validateOTP(OTP)) {
-      alert("Please enter a valid 6-digit OTP.");
+      toast.error("6 оронтой зөв OTP код оруулна уу.");
       return;
+    }
+    setOtpError("");
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userOtp: OTP, email }),
+      }
+    );
+    const data = await res.json();
+    if (res.ok && data.success) {
+      setIsOtpVerified(true);
+      toast.success("OTP баталгаажлаа.");
     } else {
-      setOtpError("");
+      setOtpError(data.message || "Буруу OTP, дахин оролдоно уу.");
+      toast.error("Буруу OTP, дахин оролдоно уу.");
+    }
+  };
+
+  const resetPassword = async () => {
+    if (newPassword !== confirmPassword) {
+      toast.error("Нууц үг таарахгүй байна.");
+      return;
     }
 
-    // if (!validateEmail(newUser)) {
-    //   alert("Please enter a valid email address.");
-    //   return;
-    // }
+    if (!newPassword || !confirmPassword) {
+      toast.error("Нууц үг эсвэл баталгаажуулалт хоосон байна.");
+      return;
+    }
 
-    const res = await fetch("http://localhost:4000/auth/verify-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userOtp: OTP, email: newUser }),
-    });
+    setLoading(true);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset-password`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, newPassword }),
+      }
+    );
+    const data = await res.json();
+    setLoading(false);
+
+    if (data?.code === "PASSWORD_UPDATED_SUCCESSFULLY") {
+      toast.success("Нууц үг амжилттай шинэчлэгдлээ!");
+      setIsDialogOpen(false);
+    } else if (data?.error) {
+      toast.error("Нууц үг шинэчлэхэд алдаа гарлаа.");
+    }
   };
+
+  const handleClick = () => setShowPassword(!showPassword);
 
   return (
     <div className="bg-white">
-      <div className="w-2/2 bg-[#4FBDA1] pt-4 h-16">
+      <Toaster richColors position="top-center" />
+      <div className="w-2/2 bg-[#FBBF24] pt-4 h-16">
         <div>
           <Link href={"/login"}>
             <div className="flex gap-2 justify-center">
-              <Coffee className="" />
-
+              <Coffee />
               <div className="font-semibold text-[18px]">Buy Me Coffee</div>
             </div>
           </Link>
         </div>
       </div>
+
       <div className="flex justify-center mt-40">
         <Card className="w-[600px]">
           <CardHeader>
-            <CardTitle>Find your Account</CardTitle>
-            <CardDescription>Enter your email</CardDescription>
+            <CardTitle>Нууц үгээ шинэчлэх</CardTitle>
+            <CardDescription>
+              Таны и-мэйл хаяг руу OTP код илгээгдэнэ.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form>
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name"></Label>
+                  <Label htmlFor="email">Имэйл хаяг</Label>
                   <Input
-                    onChange={(e) => setNewUser(e.target.value)}
-                    id="name"
-                    placeholder="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    id="email"
+                    placeholder="example@gmail.com"
                   />
-
                   {emailError && (
                     <p className="text-red-500 text-sm">{emailError}</p>
                   )}
@@ -127,72 +162,144 @@ export default function Home() {
               </div>
             </form>
           </CardContent>
-
-          {responseMessage && (
-            <p
-              className={`text-sm ${
-                responseMessage.includes("failed")
-                  ? "text-red-500"
-                  : "text-green-500"
-              }`}
-            >
-              {responseMessage}
-            </p>
-          )}
-
           <CardFooter className="flex justify-between">
-            <div className="ml-[43%]">
+            <div className="mx-auto">
               <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                  <Button
-                    onClick={() => {
-                      addUser();
-                    }}
-                    variant={"outline"}
-                    className="hover:bg-stone-900 hover:text-white"
-                  >
-                    Send OTP
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      onClick={sendOTP}
+                      variant={"outline"}
+                      className="w-[300px] hover:bg-stone-900 hover:text-white"
+                    >
+                      OTP илгээх
+                    </Button>
+                  </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogTitle>И-мэйлээ шалгана уу</DialogTitle>
                     <DialogDescription>
-                      Make changes to your profile here. Click save when you're
-                      done.
+                      {isOtpVerified
+                        ? "Шинэ нууц үгээ оруулна уу"
+                        : "Таны OTP кодыг оруулна уу"}
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="otp" className="text-right">
-                        OTP
-                      </Label>
-                      <Input
-                        onChange={(e) => setOTP(e.target.value)}
-                        placeholder="Your OTP"
-                        id="otp"
-                        className="col-span-3"
-                      />
 
+                  {!isOtpVerified ? (
+                    <>
+                      <div className="flex justify-center">
+                        <InputOTP
+                          maxLength={6}
+                          onChange={(value) => setOTP(value)}
+                        >
+                          <InputOTPGroup>
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </div>
                       {otpError && (
                         <p className="text-red-500 text-sm">{otpError}</p>
                       )}
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button
-                      onClick={() => {
-                        verifyOTP();
-                      }}
-                      type="submit"
-                    >
-                      Confirm
-                    </Button>
-                  </DialogFooter>
+                      <DialogFooter>
+                        <Button
+                          className="w-full flex justify-center items-center"
+                          onClick={verifyOTP}
+                          disabled={loading}
+                        >
+                          {loading ? (
+                            <Lottie
+                              animationData={pacman}
+                              loop
+                              autoplay
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            "Баталгаажуулах"
+                          )}
+                        </Button>
+                      </DialogFooter>
+                    </>
+                  ) : (
+                    <>
+                      <div className="grid gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="new-password">Шинэ нууц үг</Label>
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            id="new-password"
+                            placeholder="********"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                          />
+                          <span
+                            className="absolute top-[105px] opacity-30  right-8 cursor-pointer  "
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Eye /> : <EyeOff />}
+                          </span>
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="confirm-password">
+                            Нууц үгээ давтана уу
+                          </Label>
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            id="confirm-password"
+                            placeholder="********"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                          />
+                        </div>
+                        <span
+                          className="absolute top-[182px]  opacity-30 right-8 cursor-pointer  "
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Eye /> : <EyeOff />}
+                        </span>
+                        {passwordError && (
+                          <p className="text-red-500 text-sm">
+                            {passwordError}
+                          </p>
+                        )}
+                      </div>
+                      <DialogFooter>
+                        <Button
+                          className="w-full"
+                          onClick={resetPassword}
+                          disabled={loading}
+                        >
+                          {loading ? (
+                            <Lottie
+                              animationData={pacman}
+                              loop
+                              autoplay
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          ) : (
+                            "Нууц үг шинэчлэх"
+                          )}
+                        </Button>
+                      </DialogFooter>
+                    </>
+                  )}
                 </DialogContent>
               </Dialog>
             </div>
           </CardFooter>
+          <div className="flex justify-center items-center mb-10">
+            <Link href={"/login"}>
+              <button className="w-[300px] hover:bg-stone-900 hover:text-white border rounded-md h-9">
+                Нүүр хуудас руу буцах
+              </button>
+            </Link>
+          </div>
         </Card>
       </div>
     </div>

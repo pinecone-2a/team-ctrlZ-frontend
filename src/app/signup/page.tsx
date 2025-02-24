@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import Lottie from "lottie-react";
 import coffee from "../coffee.json";
 import Link from "next/link";
-
+import { useCookies } from "next-client-cookies";
 const stepOneSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
 });
@@ -34,6 +34,7 @@ const stepTwoSchema = z.object({
 });
 
 export default function MultiStepSignup() {
+  const cookies = useCookies();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     username: "",
@@ -79,6 +80,9 @@ export default function MultiStepSignup() {
         }
       );
       const data = await response.json();
+      cookies.set("accessToken", data.result);
+      cookies.set("refreshToken", data.result);
+
       setErrorMessage(data.message);
       console.log(errorMessage);
       if (response.ok) {

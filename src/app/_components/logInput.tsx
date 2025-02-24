@@ -10,11 +10,15 @@ import {
 import { use, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
+<<<<<<< HEAD
 import { Toaster, toast } from "sonner";
+=======
+import { useCookies } from "next-client-cookies";
+import { toast } from "sonner";
+>>>>>>> main
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +29,7 @@ export default function LogCard() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [data, setData] = useState<any>([]);
+  const cookies = useCookies();
 
   const handleClick = () => setShowPassword(!showPassword);
 
@@ -53,6 +58,7 @@ export default function LogCard() {
     if (!valid) return;
   };
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
@@ -67,12 +73,22 @@ export default function LogCard() {
       );
 
       const data = await response.json();
+<<<<<<< HEAD
       setLoading(false);
+=======
+      console.log(data);
+      const refreshToken = data.result.refreshToken;
+      const accessToken = data.result.accessToken;
+>>>>>>> main
 
+      cookies.set("accessToken", accessToken);
+      cookies.set("refreshToken", refreshToken);
+      setLoading(false);
       if (data.code === "Incorrect Password") {
         toast.error("Incorrect password. Please try again.");
         return;
       }
+      console.log();
 
       console.log("Response:", data.data);
 
@@ -81,6 +97,7 @@ export default function LogCard() {
       if (profile && bankCard) {
         setLoading(true);
         router.push("/home");
+<<<<<<< HEAD
       } else if (!profile) {
         toast.success("You need to complete your profile.");
         setLoading(true);
@@ -88,6 +105,13 @@ export default function LogCard() {
       } else if (!bankCard) {
         toast.success("Please add your payment details.");
         setLoading(true);
+=======
+      } else if (!data.data.profile) {
+        toast.success("You need to complete your profile.");
+        router.push("/profile");
+      } else if (!data.data.bankCard) {
+        toast.success("Please add your payment details.");
+>>>>>>> main
         router.push("/profile/payment");
       }
     } catch (e) {
@@ -106,9 +130,12 @@ export default function LogCard() {
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
           <div>
-            <label htmlFor="email">Email</label>
+            <label className="text-sm" htmlFor="email">
+              Email
+            </label>
             <Input
               id="email"
+              className="mt-2"
               type="email"
               placeholder="Enter email here"
               value={email}
@@ -117,9 +144,12 @@ export default function LogCard() {
             {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
-            <label htmlFor="password">Password</label>
+            <label className="text-sm" htmlFor="password">
+              Password
+            </label>
             <Input
               id="password"
+              className="mt-2"
               type={showPassword ? "text" : "password"}
               placeholder="Enter password here"
               value={password}
@@ -130,7 +160,7 @@ export default function LogCard() {
             )}
             {data.code && <p className="text-red-500 text-sm">{data.code}</p>}
             <p
-              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-8 left-[330px] cursor-pointer"
+              className="text-gray-600 opacity-45 duration-300 hover:text-black absolute top-[40px] left-[330px] cursor-pointer"
               onMouseDown={handleClick}
             >
               {showPassword ? <Eye /> : <EyeOff />}
@@ -150,7 +180,7 @@ export default function LogCard() {
         </form>
       </CardContent>
       <Link href={"/forgotPassword"}>
-        <p className="text-blue-700 flex justify-center font-bold text-[14px]">
+        <p className="text-black flex justify-center font-bold text-[14px]">
           Forgot password ?
         </p>
       </Link>
