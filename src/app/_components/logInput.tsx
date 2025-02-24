@@ -13,12 +13,8 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoadingModal from "./loadingModal";
-<<<<<<< HEAD
-import { Toaster, toast } from "sonner";
-=======
 import { useCookies } from "next-client-cookies";
 import { toast } from "sonner";
->>>>>>> main
 
 export default function LogCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -73,13 +69,10 @@ export default function LogCard() {
       );
 
       const data = await response.json();
-<<<<<<< HEAD
       setLoading(false);
-=======
       console.log(data);
       const refreshToken = data.result.refreshToken;
       const accessToken = data.result.accessToken;
->>>>>>> main
 
       cookies.set("accessToken", accessToken);
       cookies.set("refreshToken", refreshToken);
@@ -97,7 +90,6 @@ export default function LogCard() {
       if (profile && bankCard) {
         setLoading(true);
         router.push("/home");
-<<<<<<< HEAD
       } else if (!profile) {
         toast.success("You need to complete your profile.");
         setLoading(true);
@@ -105,13 +97,11 @@ export default function LogCard() {
       } else if (!bankCard) {
         toast.success("Please add your payment details.");
         setLoading(true);
-=======
       } else if (!data.data.profile) {
         toast.success("You need to complete your profile.");
         router.push("/profile");
       } else if (!data.data.bankCard) {
         toast.success("Please add your payment details.");
->>>>>>> main
         router.push("/profile/payment");
       }
     } catch (e) {
